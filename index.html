@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <link rel="manifest" href="manifest.json">
     <title>القرآن الكريم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
@@ -334,7 +334,6 @@
         let currentPage = 1;
         let isDownloaded = false;
 
-        // ثبت سرویس ورکر
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -463,7 +462,6 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // ساخت دکمه‌های اجزاء
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage = (i === 30) ? 587 : 3 + ((i - 1) * 20);
@@ -480,7 +478,6 @@
             juzListDiv.appendChild(btn);
         }
         
-        // دکمه حذف فایل‌های آفلاین
         const delBtn = document.createElement("button");
         delBtn.id = "deleteBtnSidebar";
         delBtn.className = "juz-btn delete-btn";
@@ -518,7 +515,6 @@
             
             localStorage.setItem('lastQuranPage', currentPage);
             
-            // اسکرول به بالای صفحه
             window.scrollTo({ top: 0, behavior: 'smooth' });
             const mainContent = document.querySelector('.main-content');
             if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
@@ -544,7 +540,6 @@
             updatePages();
         }
 
-        // متغیرهای سوایپ
         let touchstartX = 0;
         let touchstartY = 0;
         let touchendX = 0;
@@ -579,6 +574,7 @@
                 return;
             }
             
+            // این شرط برای زمانی که صفحه زوم شده است عالی عمل می‌کند و مانع سوایپ اشتباه می‌شود
             if (window.visualViewport && window.visualViewport.scale > 1.05) return;
             
             touchendX = e.changedTouches[0].screenX;
@@ -615,7 +611,6 @@
             if (saved) currentPage = parseInt(saved);
             updatePages();
             
-            // بررسی وجود فایل‌ها در کش
             caches.open('quran-cache-v1').then(cache => {
                 cache.match('images/Quran001.jpg').then(res => {
                     if (res) setDownloadedUI();
