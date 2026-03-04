@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="manifest.json">
     <title>القرآن الكريم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
@@ -17,6 +17,8 @@
             height: 100vh;
             overflow: hidden;
             overscroll-behavior-y: contain;
+            /* جلوگیری از رفتارهای پیش‌فرض لمسی مرورگر روی کل صفحه */
+            touch-action: none; 
         }
         
         .menu-toggle {
@@ -194,7 +196,7 @@
             height: 100vh;
             width: 100%;
             background-color: transparent;
-            overflow-y: auto;
+            overflow: hidden; /* تغییر مهم برای جلوگیری از اسکرول اضافه */
         }
         
         .quran-container {
@@ -206,6 +208,7 @@
             width: 100%;
             padding: 0 40px;
             box-sizing: border-box;
+            touch-action: none; /* کنترل لمس فقط توسط جاوااسکریپت */
         }
         
         .page {
@@ -215,7 +218,9 @@
             border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             background-color: white;
-            transition: filter 0.3s;
+            /* تنظیمات پایه برای زوم اختصاصی عکس */
+            transform-origin: center center;
+            will-change: transform;
         }
         
         .nav-btn {
@@ -334,6 +339,14 @@
         let currentPage = 1;
         let isDownloaded = false;
 
+        // متغیرهای سیستم زوم اختصاصی عکس
+        let currentScale = 1;
+        let translateX = 0; let translateY = 0;
+        let lastTranslateX = 0; let lastTranslateY = 0;
+        let initialPinchDistance = null;
+        let isPanning = false;
+        let lastTapTime = 0;
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -353,7 +366,6 @@
             }
             if (progress) progress.style.display = "none";
             if (delBtn) delBtn.style.display = "block";
-            
             isDownloaded = true;
         }
 
@@ -368,7 +380,6 @@
                 dlBtn.classList.remove('done');
             }
             if (delBtn) delBtn.style.display = "none";
-            
             isDownloaded = false;
         }
 
@@ -426,7 +437,6 @@
 
         async function deleteOfflineFiles() {
             if (!confirm("فایل‌های آفلاین حذف شوند؟ حدود ۷۰ مگابایت آزاد می‌شود.")) return;
-            
             try {
                 const progress = document.getElementById('progressTooltip');
                 progress.style.display = "block";
@@ -434,13 +444,10 @@
                 progress.style.color = "#8da4be";
                 
                 await caches.delete('quran-cache-v1');
-                
                 resetDownloadedUI();
                 progress.style.display = "none";
                 alert("فایل‌های آفلاین با موفقیت حذف شدند.");
-                
             } catch(e) {
-                console.error("خطا در حذف فایل‌ها:", e);
                 alert("خطا در حذف فایل‌ها");
             }
         }
@@ -462,17 +469,13 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // ساخت دکمه‌های اجزاء (با تنظیم جدید یک صفحه جلوتر برای جزء ۲ به بعد)
+        // دکمه‌های اجزاء
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage;
-            if (i === 1) {
-                startPage = 3; // جزء ۱
-            } else if (i === 30) {
-                startPage = 588; // جزء ۳۰ (ویرایش شد: یک صفحه رفت جلوتر)
-            } else {
-                startPage = 4 + ((i - 1) * 20); // جزء ۲ تا ۲۹ (ویرایش شد: یک صفحه رفت جلوتر)
-            }
+            if (i === 1) startPage = 3;
+            else if (i === 30) startPage = 588;
+            else startPage = 4 + ((i - 1) * 20);
 
             let btn = document.createElement("button");
             btn.className = "juz-btn";
@@ -499,7 +502,31 @@
             return String(num).padStart(3, '0');
         }
 
+        // تابع اعمال زوم روی عکس
+        function applyTransform(withTransition = false) {
+            const rightImg = document.getElementById("rightPage");
+            const leftImg = document.getElementById("leftPage");
+            const transformStyle = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+            
+            [rightImg, leftImg].forEach(img => {
+                if(img) {
+                    img.style.transition = withTransition ? 'transform 0.3s ease-out' : 'none';
+                    img.style.transform = transformStyle;
+                }
+            });
+        }
+
+        // تابع بازنشانی زوم
+        function resetZoom() {
+            currentScale = 1;
+            translateX = 0; translateY = 0;
+            lastTranslateX = 0; lastTranslateY = 0;
+            applyTransform(true);
+        }
+
         function updatePages() {
+            resetZoom(); // در زمان ورق زدن، عکس به حالت اول برگردد
+            
             let isMobile = window.innerWidth <= 768;
             const rightImg = document.getElementById("rightPage");
             const leftImg = document.getElementById("leftPage");
@@ -512,7 +539,6 @@
                 let leftPageNum = rightPageNum + 1;
 
                 rightImg.src = 'images/Quran' + formatPageNumber(rightPageNum) + '.jpg';
-                
                 if (leftPageNum <= totalPages) {
                     leftImg.src = 'images/Quran' + formatPageNumber(leftPageNum) + '.jpg';
                     leftImg.style.display = "block";
@@ -522,108 +548,115 @@
                 if (currentPage % 2 === 0) currentPage = rightPageNum;
             }
             
-            // ذخیره مطمئن در حافظه موبایل (بدون کرش کردن)
-            try {
-                localStorage.setItem('lastQuranPage', currentPage.toString());
-            } catch(e) {
-                console.log("LocalStorage not available.");
-            }
-            
-            // جلوگیری از خطای امنیتی آدرس دهی در گوشی
-            try {
-                if (window.location.protocol !== 'file:') {
-                    history.replaceState(null, null, '#' + currentPage);
-                }
-            } catch(e) {
-                // بی‌خیال تغییر آدرس در فایل‌های لوکال می‌شویم تا ذخیره کار کند
-            }
-            
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+            try { localStorage.setItem('lastQuranPage', currentPage.toString()); } catch(e) {}
+            try { if (window.location.protocol !== 'file:') history.replaceState(null, null, '#' + currentPage); } catch(e) {}
         }
 
         function nextPage() {
             let step = window.innerWidth <= 768 ? 1 : 2;
-            if (currentPage + step <= totalPages) {
-                currentPage += step;
-            } else if (currentPage < totalPages) {
-                currentPage++;
-            }
+            if (currentPage + step <= totalPages) currentPage += step;
+            else if (currentPage < totalPages) currentPage++;
             updatePages();
         }
 
         function prevPage() {
             let step = window.innerWidth <= 768 ? 1 : 2;
-            if (currentPage - step >= 1) {
-                currentPage -= step;
-            } else if (currentPage > 1) {
-                currentPage--;
-            }
+            if (currentPage - step >= 1) currentPage -= step;
+            else if (currentPage > 1) currentPage--;
             updatePages();
         }
 
-        let touchstartX = 0;
-        let touchstartY = 0;
-        let touchendX = 0;
-        let touchendY = 0;
+        // سیستم پیشرفته لمس، سوایپ و زوم
+        let touchstartX = 0; let touchstartY = 0;
+        let touchendX = 0; let touchendY = 0;
         let touchStartTime = 0;
-        let isMultiTouch = false;
 
         const swipeArea = document.getElementById('swipeArea');
         
         swipeArea.addEventListener('touchstart', e => {
-            if (e.touches.length > 1) {
-                isMultiTouch = true;
-                return;
-            }
-            
-            isMultiTouch = false;
-            touchstartX = e.changedTouches[0].screenX;
-            touchstartY = e.changedTouches[0].screenY;
-            touchStartTime = new Date().getTime();
-        }, {passive: true});
-
-        swipeArea.addEventListener('touchmove', e => {
-            if (e.touches.length > 1) {
-                isMultiTouch = true;
-            }
-        }, {passive: true});
-
-        swipeArea.addEventListener('touchend', e => {
-            if (e.touches && e.touches.length > 0) return;
-            if (isMultiTouch) {
-                isMultiTouch = false;
-                return;
-            }
-            
-            if (window.visualViewport && window.visualViewport.scale > 1.05) return;
-            
-            touchendX = e.changedTouches[0].screenX;
-            touchendY = e.changedTouches[0].screenY;
-            
-            let diffX = Math.abs(touchendX - touchstartX);
-            let diffY = Math.abs(touchendY - touchstartY);
-            let timeDiff = new Date().getTime() - touchStartTime;
-            
-            if (diffX > 100 && diffX > diffY * 2 && timeDiff < 600) {
-                if (touchendX > touchstartX) {
-                    nextPage();
-                } else {
-                    prevPage();
+            if (e.touches.length === 2) {
+                // شروع زوم با دو انگشت
+                initialPinchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+            } else if (e.touches.length === 1) {
+                touchstartX = e.touches[0].clientX;
+                touchstartY = e.touches[0].clientY;
+                touchStartTime = new Date().getTime();
+                
+                // اگر قبلا زوم شده، آماده جابجایی (Pan) می‌شویم
+                if (currentScale > 1) {
+                    isPanning = true;
                 }
             }
-        }, {passive: true});
+        }, {passive: false});
+
+        swipeArea.addEventListener('touchmove', e => {
+            // جلوگیری از رفتارهای پیش‌فرض موبایل
+            e.preventDefault(); 
+            
+            if (e.touches.length === 2 && initialPinchDistance) {
+                // محاسبه زوم در حین کشیدن دو انگشت
+                let currentDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                let scaleChange = currentDistance / initialPinchDistance;
+                currentScale = Math.min(Math.max(1, currentScale * scaleChange), 4); // حداکثر زوم ۴ برابر
+                initialPinchDistance = currentDistance;
+                applyTransform(false);
+            } else if (e.touches.length === 1 && isPanning && currentScale > 1) {
+                // جابجایی عکس وقتی زوم است
+                let deltaX = e.touches[0].clientX - touchstartX;
+                let deltaY = e.touches[0].clientY - touchstartY;
+                translateX = lastTranslateX + deltaX;
+                translateY = lastTranslateY + deltaY;
+                applyTransform(false);
+            }
+        }, {passive: false});
+
+        swipeArea.addEventListener('touchend', e => {
+            // بررسی دوبار ضربه (Double Tap) برای ریست کردن زوم
+            let currentTime = new Date().getTime();
+            let tapLength = currentTime - lastTapTime;
+            if (tapLength < 300 && tapLength > 0 && e.changedTouches.length === 1) {
+                resetZoom();
+                lastTapTime = 0;
+                return;
+            }
+            lastTapTime = currentTime;
+
+            if (e.touches.length < 2) {
+                initialPinchDistance = null;
+            }
+            
+            if (isPanning) {
+                lastTranslateX = translateX;
+                lastTranslateY = translateY;
+                isPanning = false;
+                return; // بعد از جابجایی عکس، ورق نخورد
+            }
+
+            // تشخیص ورق زدن (سوایپ) فقط در حالتی که صفحه زوم نیست
+            if (currentScale <= 1.05 && e.changedTouches.length === 1) {
+                touchendX = e.changedTouches[0].clientX;
+                touchendY = e.changedTouches[0].clientY;
+                
+                let diffX = Math.abs(touchendX - touchstartX);
+                let diffY = Math.abs(touchendY - touchstartY);
+                let timeDiff = new Date().getTime() - touchStartTime;
+                
+                if (diffX > 80 && diffX > diffY * 2 && timeDiff < 600) {
+                    if (touchendX > touchstartX) nextPage(); // سوایپ به راست
+                    else prevPage(); // سوایپ به چپ
+                }
+            }
+        }, {passive: false});
 
         document.addEventListener('keydown', e => {
-            if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                nextPage();
-            }
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                prevPage();
-            }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); nextPage(); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); prevPage(); }
         });
 
         window.addEventListener('resize', updatePages);
@@ -631,11 +664,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             let hashPage = parseInt(window.location.hash.replace('#', ''));
             let savedPage = null;
-            
-            // گرفتن امن از حافظه
-            try {
-                savedPage = localStorage.getItem('lastQuranPage');
-            } catch(e) {}
+            try { savedPage = localStorage.getItem('lastQuranPage'); } catch(e) {}
 
             if (hashPage && hashPage >= 1 && hashPage <= totalPages) {
                 currentPage = hashPage;
