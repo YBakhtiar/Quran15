@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
     <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
     <style>
-        /* استایل‌های پایه ثابت */
+        /* استایل‌های ثابت (مشابه قبل) */
         body {
             background-color: #0d1622;
             font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
@@ -96,7 +96,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* مودال دانلود */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -140,7 +139,6 @@
         }
         .dl-cancel-btn:hover { text-decoration: underline; color: #e57e8a; }
 
-        /* اسپلش مودال */
         .splash-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -213,7 +211,6 @@
         }
         .splash-btn i { margin-left: 8px; font-size: 20px; }
 
-        /* مودال مرکزی اجزاء */
         .juz-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -293,7 +290,6 @@
             transform: scale(1.02);
             border-color: rgba(255, 255, 255, 0.3);
         }
-        /* استایل دکمه حذف که بعد از جزء ۳۰ قرار می‌گیرد */
         .delete-offline-item {
             display: block;
             width: 100%;
@@ -315,7 +311,6 @@
             color: #e57e8a;
         }
 
-        /* محتوای اصلی */
         .main-content {
             position: relative; flex-grow: 1; display: flex;
             align-items: center; justify-content: center;
@@ -378,12 +373,12 @@
         </div>
     </div>
 
-    <!-- مودال مرکزی اجزاء (بدون دکمه بستن) -->
+    <!-- مودال مرکزی اجزاء -->
     <div id="juzOverlay" class="juz-overlay">
         <div class="juz-card">
             <button class="continue-btn" id="continueFromJuzBtn">▶ ادامه تلاوت</button>
             <div class="juz-list-container" id="juzList"></div>
-            <!-- دکمه حذف آفلاین به صورت آیتم درون لیست اضافه می‌شود -->
+            <!-- دکمه حذف آفلاین با جاوااسکریپت اضافه می‌شود -->
         </div>
     </div>
 
@@ -447,9 +442,9 @@
             document.getElementById('juzOverlay').style.display = 'none';
         }
 
-        // بستن مودال با کلیک روی پس‌زمینه (overlay)
+        // بستن مودال با کلیک روی پس‌زمینه
         document.getElementById('juzOverlay').addEventListener('click', function(e) {
-            if (e.target === this) { // اگر روی خود overlay کلیک شد (نه روی محتوا)
+            if (e.target === this) {
                 closeJuzOverlay();
             }
         });
@@ -488,6 +483,12 @@
 
         // نمایش اسپلش هنگام بارگذاری
         window.addEventListener('load', function() {
+            // خواندن آخرین صفحه از localStorage و تنظیم currentPage (برای مواقعی که کاربر مستقیم صفحه را می‌بیند)
+            let saved = localStorage.getItem('lastQuranPage');
+            if (saved && !isNaN(parseInt(saved))) {
+                currentPage = parseInt(saved);
+            }
+            // نمایش اسپلش
             document.getElementById('splashModal').style.display = 'flex';
         });
 
@@ -594,7 +595,7 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // تولید لیست اجزاء در مودال + دکمه حذف بعد از جزء ۳۰
+        // تولید لیست اجزاء در مودال
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage;
@@ -613,7 +614,7 @@
             juzListDiv.appendChild(btn);
         }
 
-        // اضافه کردن دکمه حذف آفلاین به عنوان آیتم پایانی (بعد از جزء ۳۰)
+        // اضافه کردن دکمه حذف آفلاین به عنوان آیتم پایانی
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-offline-item";
         deleteBtn.id = "deleteOfflineItem";
