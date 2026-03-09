@@ -553,7 +553,7 @@
         <div class="juz-card">
             <button class="continue-btn" id="continueFromJuzBtn">▶ ادامه تلاوت</button>
             <div class="juz-list-container" id="juzList"></div>
-            <!-- آیتم‌های اضافی (تغییر تم، تنظیمات شب، حذف آفلاین) در اینجا با جاوااسکریپت اضافه می‌شوند -->
+            <!-- آیتم‌های اضافی در اینجا با جاوااسکریپت اضافه می‌شوند -->
         </div>
     </div>
 
@@ -595,7 +595,6 @@
         <button class="nav-btn left-btn" onclick="nextPage()" title="صفحه بعد">&#10095;</button>
         
         <button class="fullscreen-btn" onclick="toggleFullScreen()" title="تمام صفحه">⤢</button>
-        <!-- دکمه تغییر تم از اینجا حذف شد و به منو منتقل گردید -->
     </div>
 
     <script>
@@ -621,7 +620,7 @@
         const themeColorMeta = document.getElementById('theme-color-meta');
         const rootStyle = document.documentElement.style;
 
-        // مقادیر پیش‌فرض فیلتر شب: invert کامل و بدون تغییر brightness/contrast
+        // مقادیر پیش‌فرض فیلتر شب: invert کامل + brightness/contrast خنثی + hue-rotate 180
         const defaultFilter = {
             invert: 1,
             brightness: 1,
@@ -631,9 +630,9 @@
         // بارگذاری مقادیر ذخیره شده یا استفاده از پیش‌فرض
         let nightFilter = JSON.parse(localStorage.getItem('quran-night-filter')) || defaultFilter;
 
-        // به‌روزرسانی متغیر CSS فیلتر
+        // به‌روزرسانی متغیر CSS فیلتر (شامل hue-rotate ثابت)
         function updateNightFilter() {
-            const filterString = `invert(${nightFilter.invert}) brightness(${nightFilter.brightness}) contrast(${nightFilter.contrast})`;
+            const filterString = `invert(${nightFilter.invert}) brightness(${nightFilter.brightness}) contrast(${nightFilter.contrast}) hue-rotate(180deg)`;
             rootStyle.setProperty('--night-filter', filterString);
             // ذخیره در localStorage
             localStorage.setItem('quran-night-filter', JSON.stringify(nightFilter));
@@ -910,7 +909,7 @@
                 <label>Contrast <span class="slider-value" id="contrastVal">${nightFilter.contrast.toFixed(2)}</span></label>
                 <input type="range" id="contrastSlider" min="0.5" max="3" step="0.01" value="${nightFilter.contrast}">
             </div>
-            <button class="reset-filter-btn" id="resetFilterBtn">↺ بازنشانی به پیش‌فرض (invert کامل)</button>
+            <button class="reset-filter-btn" id="resetFilterBtn">↺ بازنشانی به پیش‌فرض (invert کامل با چرخش رنگ)</button>
         `;
         juzListDiv.appendChild(settingsDiv);
 
