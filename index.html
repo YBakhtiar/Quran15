@@ -21,7 +21,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
     <style>
-        /* ========== متغیرهای رنگ (حالت پیش‌فرض: دارک) ========== */
+        /* متغیرهای رنگ (پس‌زمینه ثابت تیره) */
         :root {
             --bg-primary: #0d1622;
             --bg-secondary: #111d2b;
@@ -36,27 +36,12 @@
             --splash-bg: rgba(10,20,30,0.8);
             --juz-card-bg: rgba(20,30,45,0.7);
             --modal-bg: #111d2b;
-            --theme-toggle-icon: "🌙";
-            --image-filter: invert(1) hue-rotate(180deg); /* برای دارک مود */
+            --image-filter: none; /* پیش‌فرض: بدون فیلتر (حالت روز) */
         }
 
-        /* ========== حالت لایت ========== */
-        body.light-mode {
-            --bg-primary: #f5f7fa;
-            --bg-secondary: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --border-light: rgba(0,0,0,0.1);
-            --border-hover: rgba(0,0,0,0.2);
-            --button-bg: rgba(0,0,0,0.03);
-            --button-hover: rgba(0,0,0,0.08);
-            --accent-color: #16a34a;
-            --danger-color: #b91c1c;
-            --splash-bg: rgba(255,255,255,0.9);
-            --juz-card-bg: rgba(255,255,255,0.7);
-            --modal-bg: #ffffff;
-            --theme-toggle-icon: "☀️";
-            --image-filter: none; /* در لایت مود فیلتر اعمال نمی‌شود */
+        /* حالت شب: فقط فیلتر تصاویر تغییر می‌کند */
+        body.night-mode {
+            --image-filter: invert(1) hue-rotate(180deg);
         }
 
         body {
@@ -70,10 +55,10 @@
             overscroll-behavior-y: contain;
             touch-action: none;
             color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
-        /* ========== دکمه‌های ثابت ========== */
+        /* دکمه‌های ثابت */
         .menu-toggle {
             position: fixed;
             top: 20px;
@@ -146,7 +131,7 @@
             border: 1px solid var(--border-light);
         }
 
-        /* ========== مودال‌ها ========== */
+        /* مودال‌ها */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -170,7 +155,6 @@
             font-family: 'Vazirmatn', sans-serif;
             max-height: 80vh;
             overflow-y: auto;
-            transition: background-color 0.3s ease;
         }
         .modal-content h3 { margin-top: 0; color: var(--text-primary); }
         .modal-content p { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
@@ -181,7 +165,7 @@
             border: 1px solid var(--border-light); border-radius: 10px;
             cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 14px;
         }
-        .dl-opt-btn:hover { background: var(--button-hover); color: var(--text-primary); transform: scale(1.02); }
+        .dl-opt-btn:hover { background: var(--button-hover); transform: scale(1.02); }
         .dl-opt-btn span { display: block; font-size: 11px; opacity: 0.6; margin-top: 4px; }
 
         .hq-btn { border-color: var(--accent-color); }
@@ -232,7 +216,7 @@
             line-height: 1.7;
         }
 
-        /* ========== اسپلش ========== */
+        /* اسپلش */
         .splash-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -304,7 +288,7 @@
             background: rgba(255, 215, 150, 0.3);
         }
 
-        /* ========== مودال اجزاء ========== */
+        /* مودال اجزاء */
         .juz-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -380,10 +364,32 @@
         }
         .juz-item:hover {
             background: var(--button-hover);
-            color: var(--text-primary);
             transform: scale(1.02);
             border-color: var(--border-hover);
         }
+
+        /* آیتم تغییر تم در منو */
+        .theme-toggle-item {
+            display: block;
+            width: 100%;
+            padding: 14px 0;
+            margin: 15px 0 8px 0;
+            background: rgba(74, 144, 226, 0.1);
+            border: 1px solid rgba(74, 144, 226, 0.4);
+            border-radius: 30px;
+            color: var(--text-primary);
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Vazirmatn', sans-serif;
+            text-align: center;
+        }
+        .theme-toggle-item:hover {
+            background: rgba(74, 144, 226, 0.2);
+            border-color: rgba(74, 144, 226, 0.8);
+            transform: translateY(-2px);
+        }
+
         .delete-offline-item {
             display: block;
             width: 100%;
@@ -405,7 +411,7 @@
             color: var(--danger-color);
         }
 
-        /* ========== محتوای اصلی ========== */
+        /* محتوای اصلی */
         .main-content {
             position: relative; flex-grow: 1; display: flex;
             align-items: center; justify-content: center;
@@ -421,7 +427,7 @@
             height: 100%; max-width: 48%; object-fit: contain; border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); background-color: white;
             transform-origin: center center; will-change: transform;
-            filter: var(--image-filter); /* اعمال فیلتر بر اساس تم */
+            filter: var(--image-filter); /* فیلتر وابسته به تم */
             transition: filter 0.3s ease;
         }
 
@@ -435,26 +441,25 @@
         .right-btn { right: 0; border-left: 1px solid var(--border-light); }
         .left-btn { left: 0; border-right: 1px solid var(--border-light); }
 
-        /* دکمه‌های پایین صفحه */
-        .fullscreen-btn, .theme-toggle-btn {
-            position: fixed; bottom: 25px; background: var(--button-bg);
+        /* دکمه تمام‌صفحه (پایین چپ) */
+        .fullscreen-btn {
+            position: fixed; bottom: 25px; left: 25px; background: var(--button-bg);
             backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: var(--text-primary);
             border: 1px solid var(--border-light); width: 50px; height: 50px;
             border-radius: 50%; font-size: 20px; display: flex; justify-content: center; align-items: center;
             cursor: pointer; opacity: 0.7; z-index: 1000; transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             line-height: 0; padding: 0;
         }
-        .fullscreen-btn:hover, .theme-toggle-btn:hover {
+        .fullscreen-btn:hover {
             opacity: 1; background: var(--button-hover); transform: scale(1.1);
         }
-        .fullscreen-btn { left: 25px; }
-        .theme-toggle-btn { right: 25px; }
 
+        /* در موبایل دکمه تمام‌صفحه مخفی می‌شود (اختیاری) */
         @media screen and (max-width: 768px) {
             .quran-container { padding: 10px; gap: 0; }
             .page { max-width: 100%; width: 100%; height: auto; max-height: 95vh; }
             .nav-btn { display: none !important; }
-            .fullscreen-btn, .theme-toggle-btn { display: none !important; }
+            .fullscreen-btn { display: none !important; }
         }
     </style>
 </head>
@@ -478,7 +483,7 @@
         <div class="juz-card">
             <button class="continue-btn" id="continueFromJuzBtn">▶ ادامه تلاوت</button>
             <div class="juz-list-container" id="juzList"></div>
-            <!-- دکمه حذف آفلاین با جاوااسکریپت اضافه می‌شود -->
+            <!-- آیتم‌های اضافی (تغییر تم و حذف آفلاین) در اینجا با جاوااسکریپت اضافه می‌شوند -->
         </div>
     </div>
 
@@ -520,8 +525,7 @@
         <button class="nav-btn left-btn" onclick="nextPage()" title="صفحه بعد">&#10095;</button>
         
         <button class="fullscreen-btn" onclick="toggleFullScreen()" title="تمام صفحه">⤢</button>
-        <!-- دکمه تغییر تم (دارک/لایت) -->
-        <button class="theme-toggle-btn" id="themeToggleBtn" title="تغییر تم">🌙</button>
+        <!-- دکمه تغییر تم از اینجا حذف شد و به منو منتقل گردید -->
     </div>
 
     <script>
@@ -543,37 +547,37 @@
         
         let objectUrls = { right: null, left: null };
 
-        // ========== مدیریت تم (دارک/لایت) ==========
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        // ========== مدیریت تم (شب/روز) ==========
         const themeColorMeta = document.getElementById('theme-color-meta');
 
-        function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-mode');
-                themeToggleBtn.textContent = '☀️';
-                themeColorMeta.setAttribute('content', '#f5f7fa');
-                localStorage.setItem('quran-theme', 'light');
+        function setTheme(mode) {
+            if (mode === 'night') {
+                document.body.classList.add('night-mode');
+                themeColorMeta.setAttribute('content', '#0d1622'); // ثابت می‌ماند
+                localStorage.setItem('quran-theme', 'night');
             } else {
-                document.body.classList.remove('light-mode');
-                themeToggleBtn.textContent = '🌙';
+                document.body.classList.remove('night-mode');
                 themeColorMeta.setAttribute('content', '#0d1622');
-                localStorage.setItem('quran-theme', 'dark');
+                localStorage.setItem('quran-theme', 'day');
+            }
+            // به‌روزرسانی متن دکمه تغییر تم در منو (اگر وجود داشته باشد)
+            const themeBtn = document.getElementById('themeToggleMenuItem');
+            if (themeBtn) {
+                themeBtn.innerHTML = document.body.classList.contains('night-mode') ? '☀️ حالت روز' : '🌙 حالت شب';
             }
         }
 
         function toggleTheme() {
-            if (document.body.classList.contains('light-mode')) {
-                setTheme('dark');
+            if (document.body.classList.contains('night-mode')) {
+                setTheme('day');
             } else {
-                setTheme('light');
+                setTheme('night');
             }
         }
 
-        // بارگذاری تم ذخیره شده
-        const savedTheme = localStorage.getItem('quran-theme') || 'dark';
+        // بارگذاری تم ذخیره شده (پیش‌فرض: روز)
+        const savedTheme = localStorage.getItem('quran-theme') || 'day';
         setTheme(savedTheme);
-
-        themeToggleBtn.addEventListener('click', toggleTheme);
 
         // ========== Service Worker ==========
         if ('serviceWorker' in navigator) {
@@ -755,8 +759,29 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // تولید لیست اجزاء
+        // ======== تولید لیست اجزاء و آیتم‌های اضافی ========
         const juzListDiv = document.getElementById("juzList");
+        
+        // دکمه تغییر تم
+        const themeBtn = document.createElement("button");
+        themeBtn.className = "theme-toggle-item";
+        themeBtn.id = "themeToggleMenuItem";
+        themeBtn.innerHTML = document.body.classList.contains('night-mode') ? '☀️ حالت روز' : '🌙 حالت شب';
+        themeBtn.onclick = function() {
+            toggleTheme();
+            closeJuzOverlay(); // اختیاری: بستن منو پس از تغییر تم
+        };
+        juzListDiv.appendChild(themeBtn);
+
+        // دکمه حذف آفلاین
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-offline-item";
+        deleteBtn.id = "deleteOfflineItem";
+        deleteBtn.innerText = "🗑 حذف فایل‌های آفلاین";
+        deleteBtn.onclick = deleteOfflineFiles;
+        juzListDiv.appendChild(deleteBtn);
+
+        // لیست اجزاء
         for (let i = 1; i <= 30; i++) {
             let startPage;
             if (i === 1) startPage = 3; else if (i === 30) startPage = 588; else startPage = 4 + ((i - 1) * 20);
@@ -774,13 +799,7 @@
             juzListDiv.appendChild(btn);
         }
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-offline-item";
-        deleteBtn.id = "deleteOfflineItem";
-        deleteBtn.innerText = "🗑 حذف فایل‌های آفلاین";
-        deleteBtn.onclick = deleteOfflineFiles;
-        juzListDiv.appendChild(deleteBtn);
-
+        // توابع کمکی
         function formatPageNumber(num) { return String(num).padStart(3, '0'); }
 
         function applyTransform(withTransition = false) {
@@ -859,6 +878,7 @@
             updatePages();
         }
 
+        // رویدادهای لمسی (بدون تغییر)
         let touchstartX = 0; let touchstartY = 0; let touchendX = 0; let touchendY = 0; let touchStartTime = 0;
         const swipeArea = document.getElementById('swipeArea');
         
