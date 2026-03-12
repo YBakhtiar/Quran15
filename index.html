@@ -4,25 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>القرآن الكريم</title>
-    <!-- PWA & manifest از فایل 02 -->
+    <!-- PWA & manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#FDF8F0" id="theme-color-meta">
     <link rel="apple-touch-icon" href="./icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="القرآن">
-    <!-- فونت‌ها از هر دو (ترکیب) -->
+    <!-- فونت‌ها -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ────────────────────────────────────────────
-           تم‌های رنگی : دو تم اصلی "زرد" (پیش‌فرض) و "آبی"
-           ساختار: body.theme-zard یا body.theme-abi به همراه کلاس‌های night-mode و dark-ui
-           مقادیر از فایل‌های 01 (زرد) و 02 (آبی) استخراج شده
-        ──────────────────────────────────────────── */
+        /* تم زرد (پیش‌فرض) - برگرفته از 01 */
         :root {
-            /* تم زرد (پیش‌فرض) - روز */
             --bg-primary: #FDF8F0;
             --bg-secondary: #FFFFFF;
             --bg-tertiary: #F0EAE0;
@@ -36,13 +31,11 @@
             --accent: #B8860B;
             --accent-hover: #D4A017;
             --accent-soft: rgba(184, 134, 11, 0.1);
-            --accent-glow: rgba(184, 134, 11, 0.2);
             --danger: #C0392B;
             --danger-soft: rgba(192, 57, 43, 0.1);
             --success: #27AE60;
             --modal-bg: #FFFFFF;
             --card-bg: rgba(255, 255, 255, 0.82);
-            --image-filter: none;
             --pattern-opacity: 0.03;
             --shadow-soft: 0 2px 12px rgba(80, 50, 20, 0.08);
             --shadow-md: 0 8px 24px rgba(80, 50, 20, 0.12);
@@ -65,14 +58,11 @@
             --accent: #D4AF37;
             --accent-hover: #E8C84A;
             --accent-soft: rgba(212, 175, 55, 0.12);
-            --accent-glow: rgba(212, 175, 55, 0.25);
             --danger: #E74C3C;
             --danger-soft: rgba(231, 76, 60, 0.15);
             --success: #2ECC71;
             --modal-bg: #1A2B3E;
             --card-bg: rgba(26, 43, 62, 0.88);
-            --image-filter: var(--night-filter-value);
-            --pattern-opacity: 0.02;
             --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.4);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
@@ -96,16 +86,14 @@
             --accent-soft: rgba(212, 175, 55, 0.12);
             --modal-bg: #253548;
             --card-bg: rgba(37, 53, 72, 0.88);
-            --pattern-opacity: 0.02;
             --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.4);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
             --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.7);
         }
 
-        /* ────────────────── تم آبی (برگرفته از 02.html) ────────────────── */
+        /* تم آبی (برگرفته از 02) */
         body.theme-abi {
-            /* روز آبی */
             --bg-primary: #f0f7ff;
             --bg-secondary: #ffffff;
             --bg-tertiary: #e6f0fa;
@@ -119,13 +107,11 @@
             --accent: #2b6ed9;
             --accent-hover: #4f9eff;
             --accent-soft: rgba(43, 110, 217, 0.12);
-            --accent-glow: rgba(43, 110, 217, 0.2);
             --danger: #d14545;
             --danger-soft: rgba(209, 69, 69, 0.1);
             --success: #28a745;
             --modal-bg: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.82);
-            --image-filter: none;
             --pattern-opacity: 0.03;
             --shadow-soft: 0 2px 8px rgba(0, 40, 80, 0.08);
             --shadow-md: 0 6px 16px rgba(0, 40, 80, 0.12);
@@ -147,14 +133,11 @@
             --accent: #4f9eff;
             --accent-hover: #7bb3ff;
             --accent-soft: rgba(79, 158, 255, 0.2);
-            --accent-glow: rgba(79, 158, 255, 0.3);
             --danger: #ff6b6b;
             --danger-soft: rgba(255, 107, 107, 0.15);
             --success: #51cf66;
             --modal-bg: #1f2a40;
             --card-bg: rgba(31, 42, 64, 0.88);
-            --image-filter: var(--night-filter-value);
-            --pattern-opacity: 0.02;
             --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
@@ -177,14 +160,17 @@
             --accent-soft: rgba(79, 158, 255, 0.2);
             --modal-bg: #2c3a50;
             --card-bg: rgba(44, 58, 80, 0.88);
-            --pattern-opacity: 0.02;
             --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
             --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
             --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.8);
         }
 
-        /* پایه استایل‌ها (از فایل 01) */
+        /* فیلتر شب ثابت (بدون امکان تنظیم) */
+        body.night-mode {
+            --image-filter: invert(0.9) brightness(1.1) contrast(1.05) hue-rotate(180deg);
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -216,7 +202,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
 
-        /* دکمه‌های شناور (از فایل 01) */
+        /* دکمه‌های شناور */
         .float-btn {
             position: fixed;
             z-index: 100;
@@ -259,7 +245,7 @@
         .btn-download.done { display: none; }
         .btn-fullscreen { bottom: 18px; left: 18px; }
 
-        /* مودال‌ها (از فایل 01) */
+        /* مودال‌ها */
         .overlay {
             position: fixed;
             inset: 0;
@@ -327,7 +313,7 @@
         @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes cardIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* اسپلش (از فایل 01) */
+        /* اسپلش */
         .splash-overlay {
             z-index: 3000;
             background: var(--bg-primary);
@@ -436,7 +422,7 @@
         .splash-link a:hover { color: var(--accent); }
         .splash-link svg { width: 15px; height: 15px; fill: currentColor; }
 
-        /* JUZ overlay (از فایل 01) */
+        /* JUZ overlay */
         .juz-overlay { z-index: 2500; }
         .juz-card {
             position: relative;
@@ -507,142 +493,106 @@
             box-shadow: var(--shadow-soft);
         }
 
-        /* دکمه‌های تنظیمات (با کلاس‌های فایل 01) */
+        /* تنظیمات - طراحی جدید (UI جدید) */
+        .settings-section {
+            margin-bottom: 28px;
+        }
         .section-label {
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
             letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            padding-right: 4px;
+            margin-bottom: 14px;
+            padding-right: 6px;
+            text-transform: uppercase;
         }
-        .settings-section { margin-bottom: 22px; }
 
-        .settings-btn-row {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 14px;
-            border: 1px solid var(--border-light);
+        .theme-selector-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .theme-selector-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 16px 8px;
+            border-radius: 20px;
+            border: 2px solid var(--border-light);
             background: var(--card-bg);
             color: var(--text-primary);
             font-family: 'Vazirmatn', sans-serif;
             font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .theme-selector-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+        .theme-selector-btn.active {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+        .theme-selector-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            opacity: 0.9;
+        }
+
+        .settings-btn-row {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 15px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin: 6px 0;
+            gap: 10px;
+            margin: 8px 0;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
-        .settings-btn-row svg { width: 18px; height: 18px; fill: currentColor; }
-        .settings-btn-row:hover { background: var(--bg-tertiary); border-color: var(--border-hover); transform: translateY(-1px); }
+        .settings-btn-row svg { width: 20px; height: 20px; fill: currentColor; }
+        .settings-btn-row:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
         .settings-btn-row.accent {
             border-color: var(--accent);
             background: var(--accent-soft);
             color: var(--accent);
         }
-
         .settings-btn-row.danger {
             border-color: var(--danger);
             background: var(--danger-soft);
             color: var(--danger);
         }
 
-        /* پنل فیلتر شب (از فایل 01) */
-        .filter-panel {
-            margin-top: 8px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .filter-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 14px 16px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .filter-toggle:hover { background: var(--bg-secondary); }
-        .filter-toggle .arrow { transition: transform 0.3s; font-size: 11px; }
-        .filter-toggle.open .arrow { transform: rotate(180deg); }
-
-        .filter-sliders {
-            padding: 16px;
-            border-top: 1px solid var(--border-light);
-            background: var(--bg-secondary);
-            display: none;
-        }
-        .filter-sliders.visible { display: block; }
-
-        .slider-row { margin-bottom: 14px; }
-        .slider-row label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-        .slider-val {
-            background: var(--bg-tertiary);
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .slider-row input[type="range"] {
-            width: 100%;
-            cursor: pointer;
-            -webkit-appearance: none;
-            background: var(--bg-tertiary);
-            border-radius: 10px;
-            height: 5px;
-        }
-        .slider-row input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px; height: 18px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-            border: 2px solid var(--bg-primary);
-            box-shadow: var(--shadow-soft);
-        }
-        .filter-reset {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid var(--border-light);
-            background: var(--card-bg);
-            color: var(--text-secondary);
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .filter-reset:hover { background: var(--bg-tertiary); }
-
-        /* دکمه‌های دانلود (از فایل 01) */
+        /* دکمه‌های دانلود */
         .dl-option {
             width: 100%;
-            padding: 16px;
-            margin: 8px 0;
-            border-radius: 16px;
+            padding: 18px;
+            margin: 10px 0;
+            border-radius: 20px;
             border: 1px solid var(--border-light);
             background: var(--card-bg);
             color: var(--text-primary);
@@ -657,7 +607,7 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
-        .dl-option .dl-main { font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .dl-option .dl-main { font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .dl-option .dl-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
         .progress-pill {
@@ -761,6 +711,7 @@
         .nav-right { right: 0; --grad-dir: left; }
         .nav-left { left: 0; --grad-dir: right; }
 
+        /* صفحه‌نما (ایندیکیتور) - بدون تعداد کل */
         .page-indicator {
             position: fixed;
             bottom: 20px;
@@ -796,7 +747,7 @@
     </style>
 </head>
 <body class="theme-zard">
-    <!-- اسپلش مودال (از فایل 01) -->
+    <!-- اسپلش مودال -->
     <div class="overlay splash-overlay active" id="splashOverlay">
         <div class="overlay-backdrop"></div>
         <div class="splash-card">
@@ -820,7 +771,7 @@
         </div>
     </div>
 
-    <!-- JUZ overlay (از فایل 01) -->
+    <!-- JUZ overlay -->
     <div class="overlay juz-overlay" id="juzOverlay">
         <div class="overlay-backdrop"></div>
         <div class="juz-card">
@@ -834,7 +785,7 @@
         </div>
     </div>
 
-    <!-- مودال تنظیمات (ترکیب محتوای 02 با کلاس‌های 01) -->
+    <!-- مودال تنظیمات (UI جدید) -->
     <div class="overlay settings-overlay" id="settingsOverlay">
         <div class="overlay-backdrop"></div>
         <div class="modal-card">
@@ -843,46 +794,32 @@
                 تنظیمات
             </div>
 
-            <!-- بخش انتخاب تم اصلی (جدید) -->
+            <!-- انتخاب تم اصلی (زرد/آبی) - طراحی جدید -->
             <div class="settings-section">
                 <div class="section-label">تم اصلی</div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="settings-btn-row" id="themeZardBtn" style="flex:1;">🟡 زرد</button>
-                    <button class="settings-btn-row" id="themeAbiBtn" style="flex:1;">🔵 آبی</button>
+                <div class="theme-selector-group">
+                    <button class="theme-selector-btn" id="themeZardBtn">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.9"/>
+                            <path d="M12 2 L12 12 L20 12" stroke="white" stroke-width="1.5" fill="none"/>
+                        </svg>
+                        <span>زرد</span>
+                    </button>
+                    <button class="theme-selector-btn" id="themeAbiBtn">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.9"/>
+                            <path d="M12 2 L12 12 L4 12" stroke="white" stroke-width="1.5" fill="none"/>
+                        </svg>
+                        <span>آبی</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- بخش ظاهر (شامل حالت شب/روز و dark-ui) از 02 -->
+            <!-- بخش ظاهر (شب/روز و پس‌زمینه تیره) -->
             <div class="settings-section">
                 <div class="section-label">ظاهر</div>
                 <button class="settings-btn-row accent" id="themeToggle"></button>
                 <button class="settings-btn-row" id="darkUiToggle"></button>
-
-                <!-- پنل تنظیمات فیلتر شب (از 01) -->
-                <div class="filter-panel" id="filterPanel">
-                    <button class="filter-toggle" id="filterToggle">
-                        <span>⚙ تنظیمات فیلتر شب</span>
-                        <span class="arrow">▼</span>
-                    </button>
-                    <div class="filter-sliders" id="filterSliders">
-                        <div class="slider-row">
-                            <label>Invert <span class="slider-val" id="valInvert">0.90</span></label>
-                            <input type="range" id="sliderInvert" min="0" max="1" step="0.01" value="0.90">
-                        </div>
-                        <div class="slider-row">
-                            <label>Brightness <span class="slider-val" id="valBrightness">1.10</span></label>
-                            <input type="range" id="sliderBrightness" min="0.2" max="2" step="0.01" value="1.10">
-                        </div>
-                        <div class="slider-row">
-                            <label>Contrast <span class="slider-val" id="valContrast">1.05</span></label>
-                            <input type="range" id="sliderContrast" min="0.5" max="3" step="0.01" value="1.05">
-                        </div>
-                        <button class="filter-reset" id="filterReset">
-                            <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-                            بازنشانی
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <!-- بخش مدیریت حافظه -->
@@ -898,7 +835,7 @@
         </div>
     </div>
 
-    <!-- مودال دانلود (از 02 با کلاس‌های 01) -->
+    <!-- مودال دانلود -->
     <div class="overlay download-overlay" id="downloadOverlay">
         <div class="overlay-backdrop"></div>
         <div class="modal-card">
@@ -925,7 +862,7 @@
         </div>
     </div>
 
-    <!-- دکمه‌های شناور (از 01) -->
+    <!-- دکمه‌های شناور -->
     <button class="float-btn btn-menu" id="btnMenu" title="فهرست اجزاء">
         <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
@@ -996,21 +933,17 @@
         });
 
         // ================== تم اصلی (زرد/آبی) و حالت (شب/روز/dark-ui) ==================
-        let currentThemeStyle = localStorage.getItem('quran-theme-style') || 'zard'; // 'zard' یا 'abi'
-        let currentThemeMode = localStorage.getItem('quran-theme-mode') || 'day'; // 'day', 'night', 'dark-ui'
+        let currentThemeStyle = localStorage.getItem('quran-theme-style') || 'zard';
+        let currentThemeMode = localStorage.getItem('quran-theme-mode') || 'day';
 
         function applyTheme() {
-            // حذف کلاس‌های قبلی
             document.body.classList.remove('theme-zard', 'theme-abi', 'night-mode', 'dark-ui');
-            // اعمال تم اصلی
             document.body.classList.add(`theme-${currentThemeStyle}`);
-            // اعمال حالت
             if (currentThemeMode === 'night') {
                 document.body.classList.add('night-mode');
             } else if (currentThemeMode === 'dark-ui') {
                 document.body.classList.add('dark-ui');
             }
-            // به‌روزرسانی meta theme-color
             const meta = document.getElementById('theme-color-meta');
             if (currentThemeStyle === 'abi') {
                 if (currentThemeMode === 'night') meta.setAttribute('content', '#0b1424');
@@ -1041,16 +974,15 @@
         function toggleThemeMode() {
             if (currentThemeMode === 'day') setThemeMode('night');
             else if (currentThemeMode === 'night') setThemeMode('day');
-            else setThemeMode('day'); // از dark-ui به day
+            else setThemeMode('day');
         }
 
         function toggleDarkUI() {
-            if (currentThemeMode === 'night') return; // غیرفعال در شب
+            if (currentThemeMode === 'night') return;
             if (currentThemeMode === 'dark-ui') setThemeMode('day');
             else setThemeMode('dark-ui');
         }
 
-        // به‌روزرسانی دکمه themeToggle
         function updateThemeToggleButton() {
             const btn = document.getElementById('themeToggle');
             if (!btn) return;
@@ -1079,20 +1011,9 @@
         }
 
         function updateThemeStyleButtons() {
-            document.getElementById('themeZardBtn').classList.toggle('accent', currentThemeStyle === 'zard');
-            document.getElementById('themeAbiBtn').classList.toggle('accent', currentThemeStyle === 'abi');
+            document.getElementById('themeZardBtn').classList.toggle('active', currentThemeStyle === 'zard');
+            document.getElementById('themeAbiBtn').classList.toggle('active', currentThemeStyle === 'abi');
         }
-
-        // ================== فیلتر شب ==================
-        const defaultFilter = { invert: 0.90, brightness: 1.10, contrast: 1.05 };
-        let nightFilter = JSON.parse(localStorage.getItem('quran-night-filter')) || { ...defaultFilter };
-
-        function updateNightFilter() {
-            const f = `invert(${nightFilter.invert}) brightness(${nightFilter.brightness}) contrast(${nightFilter.contrast}) hue-rotate(180deg)`;
-            document.documentElement.style.setProperty('--night-filter-value', f);
-            localStorage.setItem('quran-night-filter', JSON.stringify(nightFilter));
-        }
-        updateNightFilter();
 
         // ================== توابع کمکی ==================
         function toPersianNum(num) {
@@ -1104,14 +1025,21 @@
         function showPageIndicator() {
             const el = document.getElementById('pageIndicator');
             const isMobile = window.innerWidth <= 768;
-            let displayPage = currentPage;
-            if (!isMobile && currentPage % 2 === 0) displayPage = currentPage - 1;
-            let text = 'صفحه ' + toPersianNum(displayPage);
-            if (!isMobile) {
-                let second = displayPage + 1;
-                if (second <= totalPages) text = toPersianNum(displayPage) + ' – ' + toPersianNum(second);
+            let text = '';
+            if (isMobile) {
+                // یک صفحه: نمایش currentPage - 1
+                let displayPage = currentPage - 1;
+                text = toPersianNum(displayPage);
+            } else {
+                // دو صفحه: نمایش rightPage-1 و leftPage-1
+                let rightPage = (currentPage % 2 !== 0) ? currentPage : currentPage - 1;
+                let leftPage = rightPage + 1;
+                if (leftPage <= totalPages) {
+                    text = toPersianNum(rightPage - 1) + ' – ' + toPersianNum(leftPage - 1);
+                } else {
+                    text = toPersianNum(rightPage - 1);
+                }
             }
-            text += ' از ' + toPersianNum(totalPages);
             el.textContent = text;
             el.classList.add('visible');
             clearTimeout(indicatorTimer);
@@ -1331,37 +1259,6 @@
         document.getElementById('themeZardBtn').addEventListener('click', () => setThemeStyle('zard'));
         document.getElementById('themeAbiBtn').addEventListener('click', () => setThemeStyle('abi'));
 
-        // فیلتر
-        document.getElementById('filterToggle').addEventListener('click', function() {
-            this.classList.toggle('open');
-            document.getElementById('filterSliders').classList.toggle('visible');
-        });
-        const invertSlider = document.getElementById('sliderInvert');
-        const brightSlider = document.getElementById('sliderBrightness');
-        const contrastSlider = document.getElementById('sliderContrast');
-        function syncFilter() {
-            nightFilter.invert = parseFloat(invertSlider.value);
-            nightFilter.brightness = parseFloat(brightSlider.value);
-            nightFilter.contrast = parseFloat(contrastSlider.value);
-            document.getElementById('valInvert').textContent = nightFilter.invert.toFixed(2);
-            document.getElementById('valBrightness').textContent = nightFilter.brightness.toFixed(2);
-            document.getElementById('valContrast').textContent = nightFilter.contrast.toFixed(2);
-            updateNightFilter();
-        }
-        invertSlider.value = nightFilter.invert;
-        brightSlider.value = nightFilter.brightness;
-        contrastSlider.value = nightFilter.contrast;
-        invertSlider.addEventListener('input', syncFilter);
-        brightSlider.addEventListener('input', syncFilter);
-        contrastSlider.addEventListener('input', syncFilter);
-        document.getElementById('filterReset').addEventListener('click', () => {
-            nightFilter = { ...defaultFilter };
-            invertSlider.value = nightFilter.invert;
-            brightSlider.value = nightFilter.brightness;
-            contrastSlider.value = nightFilter.contrast;
-            syncFilter();
-        });
-
         // دانلود
         document.getElementById('dlStandard').addEventListener('click', () => startDownload('standard'));
         document.getElementById('dlHQ').addEventListener('click', () => startDownload('hq'));
@@ -1436,15 +1333,10 @@
 
         // ================== مقداردهی اولیه ==================
         (function init() {
-            // تم
             applyTheme();
-
-            // صفحه آخر
             let saved = localStorage.getItem('lastQuranPage');
             if (saved && !isNaN(parseInt(saved))) currentPage = parseInt(saved);
             updatePages();
-
-            // بررسی کش
             caches.open('quran-cache-v1').then(cache => {
                 cache.match('images/Quran001.jpg').then(res => { if (res) setDownloadedUI(); });
             });
