@@ -91,10 +91,45 @@
             fill: currentColor;
         }
 
-        .main-download-btn {
+        /* دکمه تنظیمات جدید در بالا چپ */
+        .settings-btn {
             position: fixed;
             top: 20px;
             left: 20px;
+            background: var(--button-bg);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            padding: 12px 16px;
+            border-radius: 14px;
+            opacity: 0.8;
+            transition: all 0.4s ease;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .settings-btn:hover {
+            opacity: 1;
+            background: var(--button-hover);
+            transform: scale(1.05);
+        }
+        .settings-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* دکمه دانلود آفلاین به پایین راست منتقل شد */
+        .main-download-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            top: auto;
+            left: auto;
             background: var(--button-bg);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
@@ -533,7 +568,7 @@
             border-color: var(--border-hover);
         }
 
-        /* آیتم تغییر تم در منو - استایل متمایز (مستطیلی با گوشه‌های کمتر) */
+        /* آیتم تغییر تم در تنظیمات - همان استایل قبلی */
         .theme-toggle-item {
             display: flex;
             align-items: center;
@@ -821,7 +856,6 @@
             <h1>القرآن الكريم</h1>
             <div class="subtitle">به نرم‌افزار قرآن کریم خوش آمدید</div>
             <button class="splash-btn" id="continueReadingBtn">
-                <!-- آیکون پلی برای ادامه مطالعه -->
                 <svg viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z"/>
                 </svg>
@@ -857,6 +891,14 @@
         </div>
     </div>
 
+    <!-- دکمه تنظیمات جدید (بالا چپ) -->
+    <button id="settingsBtn" class="settings-btn" onclick="openSettingsModal()">
+        <svg viewBox="0 0 24 24">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </svg>
+    </button>
+
+    <!-- دکمه دانلود آفلاین (پایین راست) -->
     <button id="mainDownloadBtn" class="main-download-btn" onclick="openDownloadModal()">
         <svg viewBox="0 0 24 24">
             <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
@@ -865,6 +907,7 @@
     </button>
     <div id="progressTooltip" class="progress-tooltip">در حال دانلود...</div>
     
+    <!-- مودال دانلود (بدون تغییر) -->
     <div id="downloadModal" class="modal-overlay">
         <div class="modal-content">
             <h3>
@@ -934,6 +977,62 @@
         </div>
     </div>
 
+    <!-- مودال تنظیمات جدید -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+                تنظیمات
+            </h3>
+            
+            <!-- دکمه تغییر تم -->
+            <button class="theme-toggle-item" id="settingsThemeToggle">
+                <!-- آیکون و متن توسط JS تنظیم می‌شود -->
+            </button>
+            
+            <!-- تنظیمات حالت شب (اسلایدرها) -->
+            <div class="night-settings-container" id="settingsNightContainer">
+                <button class="night-settings-toggle" id="settingsNightToggle">
+                    <span><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg> تنظیمات حالت شب</span><span class="arrow">▼</span>
+                </button>
+                <div class="night-settings-panel" id="settingsNightPanel">
+                    <div class="slider-container">
+                        <label>Invert <span class="slider-value" id="settingsInvertVal">0.90</span></label>
+                        <input type="range" id="settingsInvertSlider" min="0" max="1" step="0.01" value="0.90">
+                    </div>
+                    <div class="slider-container">
+                        <label>Brightness <span class="slider-value" id="settingsBrightnessVal">1.10</span></label>
+                        <input type="range" id="settingsBrightnessSlider" min="0.2" max="2" step="0.01" value="1.10">
+                    </div>
+                    <div class="slider-container">
+                        <label>Contrast <span class="slider-value" id="settingsContrastVal">1.05</span></label>
+                        <input type="range" id="settingsContrastSlider" min="0.5" max="3" step="0.01" value="1.05">
+                    </div>
+                    <button class="reset-filter-btn" id="settingsResetFilterBtn">
+                        <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        بازنشانی
+                    </button>
+                </div>
+            </div>
+            
+            <!-- دکمه حذف فایل‌های آفلاین -->
+            <button class="delete-offline-item" id="settingsDeleteOfflineBtn">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                حذف فایل‌های آفلاین
+            </button>
+            
+            <button class="cancel-btn" onclick="closeSettingsModal()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+                بستن
+            </button>
+        </div>
+    </div>
+
+    <!-- دکمه فهرست اجزاء (بالا راست) بدون تغییر -->
     <button class="menu-toggle" onclick="openJuzOverlay()" title="فهرست اجزاء">
         <svg viewBox="0 0 24 24">
             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -941,7 +1040,6 @@
     </button>
     
     <div class="main-content" id="swipeArea">
-        <!-- دکمه سمت راست: صفحه قبل (فلش به راست) -->
         <button class="nav-btn right-btn" onclick="prevPage()" title="صفحه قبل">
             <svg viewBox="0 0 24 24">
                 <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
@@ -957,7 +1055,6 @@
             </div>
         </div>
         
-        <!-- دکمه سمت چپ: صفحه بعد (فلش به چپ) -->
         <button class="nav-btn left-btn" onclick="nextPage()" title="صفحه بعد">
             <svg viewBox="0 0 24 24">
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
@@ -1020,37 +1117,44 @@
                 localStorage.setItem('quran-theme', 'day');
             }
             
-            // به‌روزرسانی آیکون و متن دکمه تغییر تم (منطق درست: در شب خورشید و "حالت روز"، در روز ماه و "حالت شب")
-            const themeBtn = document.getElementById('themeToggleMenuItem');
+            // به‌روزرسانی دکمه تغییر تم در مودال تنظیمات
+            const themeBtn = document.getElementById('settingsThemeToggle');
             if (themeBtn) {
-                const icon = themeBtn.querySelector('svg');
-                const textSpan = themeBtn.querySelector('span');
+                // پاک کردن محتوای قبلی
+                themeBtn.innerHTML = '';
                 if (document.body.classList.contains('night-mode')) {
-                    // حالت شب: آیکون خورشید، متن "حالت روز" (برای رفتن به روز)
-                    icon.innerHTML = `
-                        <circle cx="12" cy="12" r="5" fill="currentColor"/>
-                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                            <line x1="12" y1="1" x2="12" y2="4"/>
-                            <line x1="12" y1="20" x2="12" y2="23"/>
-                            <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
-                            <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-                            <line x1="1" y1="12" x2="4" y2="12"/>
-                            <line x1="20" y1="12" x2="23" y2="12"/>
-                            <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-                            <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
-                        </g>
+                    // حالت شب: آیکون خورشید، متن "حالت روز"
+                    themeBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="12" r="5"/>
+                            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <line x1="12" y1="1" x2="12" y2="4"/>
+                                <line x1="12" y1="20" x2="12" y2="23"/>
+                                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+                                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                                <line x1="1" y1="12" x2="4" y2="12"/>
+                                <line x1="20" y1="12" x2="23" y2="12"/>
+                                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+                                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+                            </g>
+                        </svg>
+                        <span>حالت روز</span>
                     `;
-                    textSpan.textContent = 'حالت روز';
                 } else {
-                    // حالت روز: آیکون ماه، متن "حالت شب" (برای رفتن به شب)
-                    icon.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
-                    textSpan.textContent = 'حالت شب';
+                    // حالت روز: آیکون ماه، متن "حالت شب"
+                    themeBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/>
+                        </svg>
+                        <span>حالت شب</span>
+                    `;
                 }
             }
             
-            const settingsContainer = document.getElementById('nightSettingsContainer');
-            if (settingsContainer) {
-                settingsContainer.style.display = document.body.classList.contains('night-mode') ? 'block' : 'none';
+            // نمایش/مخفی کردن بخش تنظیمات شب بر اساس تم
+            const settingsNightContainer = document.getElementById('settingsNightContainer');
+            if (settingsNightContainer) {
+                settingsNightContainer.style.display = document.body.classList.contains('night-mode') ? 'block' : 'none';
             }
         }
 
@@ -1104,6 +1208,10 @@
             if (e.target === this) closeDownloadModal();
         });
 
+        document.getElementById('settingsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSettingsModal();
+        });
+
         // ======== توابع اسپلش ========
         function hideSplash() {
             document.getElementById('splashModal').style.display = 'none';
@@ -1138,6 +1246,13 @@
             }
         }
         function closeDownloadModal() { document.getElementById('downloadModal').style.display = 'none'; }
+
+        function openSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
 
         function setDownloadedUI() {
             const dlBtn = document.getElementById('mainDownloadBtn');
@@ -1240,7 +1355,7 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // ======== تولید لیست اجزاء ========
+        // ======== تولید لیست اجزاء (فقط اجزاء، بدون گزینه‌های اضافی) ========
         const juzListDiv = document.getElementById("juzList");
         
         for (let i = 1; i <= 30; i++) {
@@ -1260,124 +1375,75 @@
             juzListDiv.appendChild(btn);
         }
 
-        // دکمه تغییر تم با آیکون‌های درست
-        const themeBtn = document.createElement("button");
-        themeBtn.className = "theme-toggle-item";
-        themeBtn.id = "themeToggleMenuItem";
-        // مقداردهی اولیه توسط setTheme انجام می‌شود، اما برای اطمینان بر اساس تم فعلی تنظیم می‌کنیم
-        const isNightMode = document.body.classList.contains('night-mode');
-        if (isNightMode) {
-            themeBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="12" cy="12" r="5"/>
-                    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <line x1="12" y1="1" x2="12" y2="4"/>
-                        <line x1="12" y1="20" x2="12" y2="23"/>
-                        <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
-                        <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-                        <line x1="1" y1="12" x2="4" y2="12"/>
-                        <line x1="20" y1="12" x2="23" y2="12"/>
-                        <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-                        <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
-                    </g>
-                </svg>
-                <span>حالت روز</span>
-            `;
-        } else {
-            themeBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/>
-                </svg>
-                <span>حالت شب</span>
-            `;
-        }
-        themeBtn.onclick = toggleTheme;
-        juzListDiv.appendChild(themeBtn);
+        // ======== راه‌اندازی تنظیمات مودال تنظیمات ========
+        (function setupSettingsModal() {
+            // دکمه تغییر تم
+            const themeToggle = document.getElementById('settingsThemeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
 
-        // تنظیمات شب
-        const settingsContainer = document.createElement("div");
-        settingsContainer.className = "night-settings-container";
-        settingsContainer.id = "nightSettingsContainer";
-        if (!document.body.classList.contains('night-mode')) {
-            settingsContainer.style.display = 'none';
-        }
+            // دکمه باز و بسته شدن پنل تنظیمات شب
+            const nightToggle = document.getElementById('settingsNightToggle');
+            const nightPanel = document.getElementById('settingsNightPanel');
+            if (nightToggle && nightPanel) {
+                nightToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nightPanel.classList.toggle('visible');
+                    nightToggle.classList.toggle('active');
+                });
+            }
 
-        const toggleBtn = document.createElement("button");
-        toggleBtn.className = "night-settings-toggle";
-        toggleBtn.innerHTML = '<span><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg> تنظیمات حالت شب</span><span class="arrow">▼</span>';
+            // اسلایدرها
+            const invertSlider = document.getElementById('settingsInvertSlider');
+            const brightnessSlider = document.getElementById('settingsBrightnessSlider');
+            const contrastSlider = document.getElementById('settingsContrastSlider');
+            const invertVal = document.getElementById('settingsInvertVal');
+            const brightnessVal = document.getElementById('settingsBrightnessVal');
+            const contrastVal = document.getElementById('settingsContrastVal');
 
-        const panel = document.createElement("div");
-        panel.className = "night-settings-panel";
-        panel.id = "nightSettingsPanel";
-        panel.innerHTML = `
-            <div class="slider-container">
-                <label>Invert <span class="slider-value" id="invertVal">${nightFilter.invert.toFixed(2)}</span></label>
-                <input type="range" id="invertSlider" min="0" max="1" step="0.01" value="${nightFilter.invert}">
-            </div>
-            <div class="slider-container">
-                <label>Brightness <span class="slider-value" id="brightnessVal">${nightFilter.brightness.toFixed(2)}</span></label>
-                <input type="range" id="brightnessSlider" min="0.2" max="2" step="0.01" value="${nightFilter.brightness}">
-            </div>
-            <div class="slider-container">
-                <label>Contrast <span class="slider-value" id="contrastVal">${nightFilter.contrast.toFixed(2)}</span></label>
-                <input type="range" id="contrastSlider" min="0.5" max="3" step="0.01" value="${nightFilter.contrast}">
-            </div>
-            <button class="reset-filter-btn" id="resetFilterBtn">
-                <svg viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-                بازنشانی
-            </button>
-        `;
+            function updateSlidersAndFilter() {
+                nightFilter.invert = parseFloat(invertSlider.value);
+                nightFilter.brightness = parseFloat(brightnessSlider.value);
+                nightFilter.contrast = parseFloat(contrastSlider.value);
+                invertVal.textContent = nightFilter.invert.toFixed(2);
+                brightnessVal.textContent = nightFilter.brightness.toFixed(2);
+                contrastVal.textContent = nightFilter.contrast.toFixed(2);
+                updateNightFilter();
+            }
 
-        settingsContainer.appendChild(toggleBtn);
-        settingsContainer.appendChild(panel);
-        juzListDiv.appendChild(settingsContainer);
-
-        toggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            panel.classList.toggle('visible');
-            toggleBtn.classList.toggle('active');
-        });
-
-        const invertSlider = document.getElementById('invertSlider');
-        const brightnessSlider = document.getElementById('brightnessSlider');
-        const contrastSlider = document.getElementById('contrastSlider');
-        const invertVal = document.getElementById('invertVal');
-        const brightnessVal = document.getElementById('brightnessVal');
-        const contrastVal = document.getElementById('contrastVal');
-
-        function updateSlidersAndFilter() {
-            nightFilter.invert = parseFloat(invertSlider.value);
-            nightFilter.brightness = parseFloat(brightnessSlider.value);
-            nightFilter.contrast = parseFloat(contrastSlider.value);
-            invertVal.textContent = nightFilter.invert.toFixed(2);
-            brightnessVal.textContent = nightFilter.brightness.toFixed(2);
-            contrastVal.textContent = nightFilter.contrast.toFixed(2);
-            updateNightFilter();
-        }
-
-        if (invertSlider) {
-            invertSlider.addEventListener('input', updateSlidersAndFilter);
-            brightnessSlider.addEventListener('input', updateSlidersAndFilter);
-            contrastSlider.addEventListener('input', updateSlidersAndFilter);
-        }
-
-        const resetBtn = document.getElementById('resetFilterBtn');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', function() {
-                nightFilter = { ...defaultFilter };
+            if (invertSlider) {
+                // مقداردهی اولیه از nightFilter
                 invertSlider.value = nightFilter.invert;
                 brightnessSlider.value = nightFilter.brightness;
                 contrastSlider.value = nightFilter.contrast;
-                updateSlidersAndFilter();
-            });
-        }
+                invertVal.textContent = nightFilter.invert.toFixed(2);
+                brightnessVal.textContent = nightFilter.brightness.toFixed(2);
+                contrastVal.textContent = nightFilter.contrast.toFixed(2);
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-offline-item";
-        deleteBtn.id = "deleteOfflineItem";
-        deleteBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> حذف فایل‌های آفلاین';
-        deleteBtn.onclick = deleteOfflineFiles;
-        juzListDiv.appendChild(deleteBtn);
+                invertSlider.addEventListener('input', updateSlidersAndFilter);
+                brightnessSlider.addEventListener('input', updateSlidersAndFilter);
+                contrastSlider.addEventListener('input', updateSlidersAndFilter);
+            }
+
+            // دکمه بازنشانی
+            const resetBtn = document.getElementById('settingsResetFilterBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function() {
+                    nightFilter = { ...defaultFilter };
+                    invertSlider.value = nightFilter.invert;
+                    brightnessSlider.value = nightFilter.brightness;
+                    contrastSlider.value = nightFilter.contrast;
+                    updateSlidersAndFilter();
+                });
+            }
+
+            // دکمه حذف فایل‌های آفلاین
+            const deleteBtn = document.getElementById('settingsDeleteOfflineBtn');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', deleteOfflineFiles);
+            }
+        })();
 
         // ======== توابع مدیریت صفحات ========
         function formatPageNumber(num) { return String(num).padStart(3, '0'); }
@@ -1466,7 +1532,7 @@
             updatePages();
         }
 
-        // رویدادهای لمسی
+        // رویدادهای لمسی (بدون تغییر)
         let touchstartX = 0; let touchstartY = 0; let touchendX = 0; let touchendY = 0; let touchStartTime = 0;
         const swipeArea = document.getElementById('swipeArea');
         
