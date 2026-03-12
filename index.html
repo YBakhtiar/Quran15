@@ -4,14 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>القرآن الكريم</title>
+    <!-- PWA & manifest از فایل 02 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FDF8F0" id="theme-color-meta">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="القرآن">
+    <!-- فونت‌ها از هر دو (ترکیب) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ═══════════════════════════════════
-           THEME VARIABLES
-           ═══════════════════════════════════ */
+        /* ────────────────────────────────────────────
+           تم‌های رنگی : دو تم اصلی "زرد" (پیش‌فرض) و "آبی"
+           ساختار: body.theme-zard یا body.theme-abi به همراه کلاس‌های night-mode و dark-ui
+           مقادیر از فایل‌های 01 (زرد) و 02 (آبی) استخراج شده
+        ──────────────────────────────────────────── */
         :root {
+            /* تم زرد (پیش‌فرض) - روز */
             --bg-primary: #FDF8F0;
             --bg-secondary: #FFFFFF;
             --bg-tertiary: #F0EAE0;
@@ -39,7 +50,8 @@
             --shadow-page: 0 8px 32px rgba(80, 50, 20, 0.2);
         }
 
-        body.night-mode {
+        /* تم زرد - شب */
+        body.theme-zard.night-mode {
             --bg-primary: #0F1923;
             --bg-secondary: #1A2B3E;
             --bg-tertiary: #243548;
@@ -67,7 +79,8 @@
             --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.7);
         }
 
-        body.dark-ui:not(.night-mode) {
+        /* تم زرد - dark-ui (فقط روز) */
+        body.theme-zard.dark-ui:not(.night-mode) {
             --bg-primary: #1A2538;
             --bg-secondary: #253548;
             --bg-tertiary: #2F4058;
@@ -90,8 +103,9 @@
             --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.7);
         }
 
-        /* ===== تم مدرن (برگرفته از کد دوم) ===== */
-        body.modern-theme {
+        /* ────────────────── تم آبی (برگرفته از 02.html) ────────────────── */
+        body.theme-abi {
+            /* روز آبی */
             --bg-primary: #f0f7ff;
             --bg-secondary: #ffffff;
             --bg-tertiary: #e6f0fa;
@@ -101,9 +115,9 @@
             --text-muted: #5b6f8c;
             --border-light: rgba(0, 50, 100, 0.1);
             --border-hover: rgba(0, 80, 150, 0.2);
-            --border-decorative: rgba(43, 110, 217, 0.25);
+            --border-decorative: rgba(43, 110, 217, 0.2);
             --accent: #2b6ed9;
-            --accent-hover: #3f82f0;
+            --accent-hover: #4f9eff;
             --accent-soft: rgba(43, 110, 217, 0.12);
             --accent-glow: rgba(43, 110, 217, 0.2);
             --danger: #d14545;
@@ -119,38 +133,58 @@
             --shadow-page: 0 8px 32px rgba(0, 40, 80, 0.2);
         }
 
-        /* تم مدرن با پس‌زمینه تیره (مشابه dark-ui در کد دوم) */
-        body.modern-theme.dark-ui {
-            --bg-primary: #1a2538;
-            --bg-secondary: #2c3a50;
-            --bg-tertiary: #3a4a64;
-            --bg-elevated: rgba(40, 55, 75, 0.8);
-            --text-primary: #eef2f8;
-            --text-secondary: #cbd5e8;
-            --text-muted: #9aafcc;
+        body.theme-abi.night-mode {
+            --bg-primary: #0b1424;
+            --bg-secondary: #1f2a40;
+            --bg-tertiary: #2a3650;
+            --bg-elevated: rgba(31, 42, 64, 0.92);
+            --text-primary: #f0f4ff;
+            --text-secondary: #d0dcff;
+            --text-muted: #a0b0d0;
             --border-light: rgba(255, 255, 255, 0.1);
             --border-hover: rgba(255, 255, 255, 0.2);
-            --border-decorative: rgba(79, 158, 255, 0.3);
+            --border-decorative: rgba(79, 158, 255, 0.25);
             --accent: #4f9eff;
-            --accent-hover: #6ab0ff;
+            --accent-hover: #7bb3ff;
             --accent-soft: rgba(79, 158, 255, 0.2);
             --accent-glow: rgba(79, 158, 255, 0.3);
             --danger: #ff6b6b;
             --danger-soft: rgba(255, 107, 107, 0.15);
             --success: #51cf66;
-            --modal-bg: #2c3a50;
-            --card-bg: rgba(35, 50, 70, 0.8);
-            --image-filter: none;
+            --modal-bg: #1f2a40;
+            --card-bg: rgba(31, 42, 64, 0.88);
+            --image-filter: var(--night-filter-value);
             --pattern-opacity: 0.02;
-            --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.5);
-            --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.6);
-            --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.7);
+            --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
             --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.8);
         }
 
-        /* ═══════════════════════════════════
-           BASE STYLES
-           ═══════════════════════════════════ */
+        body.theme-abi.dark-ui:not(.night-mode) {
+            --bg-primary: #1a2538;
+            --bg-secondary: #2c3a50;
+            --bg-tertiary: #3a4a64;
+            --bg-elevated: rgba(44, 58, 80, 0.92);
+            --text-primary: #eef2f8;
+            --text-secondary: #cbd5e8;
+            --text-muted: #9aafcc;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --border-decorative: rgba(79, 158, 255, 0.2);
+            --accent: #4f9eff;
+            --accent-hover: #7bb3ff;
+            --accent-soft: rgba(79, 158, 255, 0.2);
+            --modal-bg: #2c3a50;
+            --card-bg: rgba(44, 58, 80, 0.88);
+            --pattern-opacity: 0.02;
+            --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.7);
+            --shadow-page: 0 8px 32px rgba(0, 0, 0, 0.8);
+        }
+
+        /* پایه استایل‌ها (از فایل 01) */
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
@@ -166,7 +200,6 @@
             line-height: 1.5;
         }
 
-        /* Subtle dot grid pattern */
         body::before {
             content: '';
             position: fixed;
@@ -179,14 +212,11 @@
             transition: opacity 0.4s;
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 10px; }
 
-        /* ═══════════════════════════════════
-           FLOATING BUTTONS
-           ═══════════════════════════════════ */
+        /* دکمه‌های شناور (از فایل 01) */
         .float-btn {
             position: fixed;
             z-index: 100;
@@ -221,7 +251,6 @@
             gap: 6px;
             font-size: 13px;
             font-weight: 500;
-            font-family: 'Vazirmatn', sans-serif;
         }
 
         .btn-menu { top: 18px; right: 18px; }
@@ -230,9 +259,7 @@
         .btn-download.done { display: none; }
         .btn-fullscreen { bottom: 18px; left: 18px; }
 
-        /* ═══════════════════════════════════
-           OVERLAYS & MODALS (shared)
-           ═══════════════════════════════════ */
+        /* مودال‌ها (از فایل 01) */
         .overlay {
             position: fixed;
             inset: 0;
@@ -241,6 +268,7 @@
             justify-content: center;
             padding: 16px;
             animation: overlayIn 0.25s ease;
+            z-index: 2500;
         }
         .overlay.active { display: flex; }
 
@@ -266,8 +294,6 @@
             box-shadow: var(--shadow-lg);
             color: var(--text-primary);
             animation: cardIn 0.3s ease;
-            scrollbar-width: thin;
-            scrollbar-color: var(--text-muted) transparent;
         }
 
         .modal-header {
@@ -301,9 +327,7 @@
         @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes cardIn { from { opacity: 0; transform: translateY(16px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* ═══════════════════════════════════
-           SPLASH SCREEN
-           ═══════════════════════════════════ */
+        /* اسپلش (از فایل 01) */
         .splash-overlay {
             z-index: 3000;
             background: var(--bg-primary);
@@ -395,12 +419,6 @@
             border-color: var(--accent);
             color: var(--accent);
         }
-        body.night-mode .splash-btn-primary,
-        body.dark-ui .splash-btn-primary,
-        body.modern-theme .splash-btn-primary {
-            color: #F0E6D3;
-            background: rgba(212, 175, 55, 0.18);
-        }
 
         .splash-link {
             margin-top: 28px;
@@ -415,14 +433,11 @@
             gap: 6px;
             transition: color 0.2s;
         }
-        .splash-link a:hover { color: var(--accent); opacity: 1; }
+        .splash-link a:hover { color: var(--accent); }
         .splash-link svg { width: 15px; height: 15px; fill: currentColor; }
 
-        /* ═══════════════════════════════════
-           JUZ OVERLAY
-           ═══════════════════════════════════ */
+        /* JUZ overlay (از فایل 01) */
         .juz-overlay { z-index: 2500; }
-
         .juz-card {
             position: relative;
             z-index: 1;
@@ -440,7 +455,6 @@
             flex-direction: column;
             animation: cardIn 0.3s ease;
         }
-
         .juz-continue-btn {
             display: flex;
             align-items: center;
@@ -461,27 +475,17 @@
         }
         .juz-continue-btn svg { width: 18px; height: 18px; fill: currentColor; }
         .juz-continue-btn:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        body.night-mode .juz-continue-btn,
-        body.dark-ui .juz-continue-btn,
-        body.modern-theme .juz-continue-btn {
-            color: #F0E6D3;
-            background: rgba(212, 175, 55, 0.18);
-        }
-
         .juz-grid-container {
             overflow-y: auto;
             flex-grow: 1;
             scrollbar-width: thin;
-            scrollbar-color: var(--text-muted) transparent;
             padding: 4px;
         }
-
         .juz-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
         }
-
         .juz-item {
             padding: 14px 8px;
             background: var(--card-bg);
@@ -494,7 +498,6 @@
             font-weight: 700;
             color: var(--text-primary);
             transition: all 0.2s ease;
-            animation: juzItemIn 0.3s ease backwards;
         }
         .juz-item:hover {
             border-color: var(--accent);
@@ -504,16 +507,7 @@
             box-shadow: var(--shadow-soft);
         }
 
-        @keyframes juzItemIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ═══════════════════════════════════
-           SETTINGS MODAL
-           ═══════════════════════════════════ */
-        .settings-overlay { z-index: 2500; }
-
+        /* دکمه‌های تنظیمات (با کلاس‌های فایل 01) */
         .section-label {
             font-size: 12px;
             font-weight: 600;
@@ -544,16 +538,10 @@
         }
         .settings-btn-row svg { width: 18px; height: 18px; fill: currentColor; }
         .settings-btn-row:hover { background: var(--bg-tertiary); border-color: var(--border-hover); transform: translateY(-1px); }
-
         .settings-btn-row.accent {
             border-color: var(--accent);
             background: var(--accent-soft);
             color: var(--accent);
-        }
-        body.night-mode .settings-btn-row.accent,
-        body.modern-theme .settings-btn-row.accent {
-            color: #F0E6D3;
-            background: rgba(212,175,55,0.18);
         }
 
         .settings-btn-row.danger {
@@ -562,37 +550,7 @@
             color: var(--danger);
         }
 
-        /* دکمه‌های تم جدید */
-        .theme-option-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 14px;
-            border: 1px solid var(--border-light);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin: 6px 0;
-        }
-        .theme-option-btn.active {
-            border-color: var(--accent);
-            background: var(--accent-soft);
-            color: var(--accent);
-        }
-        .theme-option-btn:hover {
-            background: var(--bg-tertiary);
-            border-color: var(--border-hover);
-            transform: translateY(-1px);
-        }
-
-        /* Night filter panel */
+        /* پنل فیلتر شب (از فایل 01) */
         .filter-panel {
             margin-top: 8px;
             background: var(--bg-tertiary);
@@ -678,13 +636,8 @@
             gap: 6px;
         }
         .filter-reset:hover { background: var(--bg-tertiary); }
-        .filter-reset svg { width: 14px; height: 14px; fill: currentColor; }
 
-        /* ═══════════════════════════════════
-           DOWNLOAD MODAL
-           ═══════════════════════════════════ */
-        .download-overlay { z-index: 2500; }
-
+        /* دکمه‌های دانلود (از فایل 01) */
         .dl-option {
             width: 100%;
             padding: 16px;
@@ -705,9 +658,7 @@
             box-shadow: var(--shadow-md);
         }
         .dl-option .dl-main { font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .dl-option .dl-main svg { width: 18px; height: 18px; fill: currentColor; }
         .dl-option .dl-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-        .dl-option p { margin-bottom: 0; }
 
         .progress-pill {
             position: fixed;
@@ -723,106 +674,9 @@
             box-shadow: var(--shadow-md);
             display: none;
             z-index: 150;
-            font-family: 'Vazirmatn', sans-serif;
         }
 
-        /* ═══════════════════════════════════
-           CUSTOM DIALOGS (replace alert/confirm)
-           ═══════════════════════════════════ */
-        .dialog-overlay {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            padding: 16px;
-            animation: overlayIn 0.2s ease;
-        }
-        .dialog-overlay .overlay-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-        .dialog-card {
-            position: relative;
-            z-index: 1;
-            background: var(--modal-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 24px;
-            padding: 28px;
-            max-width: 360px;
-            width: 100%;
-            box-shadow: var(--shadow-lg);
-            animation: cardIn 0.25s ease;
-        }
-        .dialog-title {
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-        }
-        .dialog-message {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 24px;
-        }
-        .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
-        .dialog-btn {
-            padding: 10px 22px;
-            border-radius: 12px;
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-        .dialog-btn-ok {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-        .dialog-btn-ok:hover { background: var(--accent-hover); }
-        .dialog-btn-cancel {
-            background: transparent;
-            color: var(--text-muted);
-            border-color: var(--border-light);
-        }
-        .dialog-btn-cancel:hover { background: var(--bg-tertiary); }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(16px);
-            background: var(--bg-elevated);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            color: var(--text-primary);
-            padding: 12px 24px;
-            border-radius: 14px;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-md);
-            font-size: 14px;
-            font-family: 'Vazirmatn', sans-serif;
-            z-index: 10000;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            text-align: center;
-            max-width: 90%;
-        }
-        .toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        /* ═══════════════════════════════════
-           MAIN CONTENT & PAGES
-           ═══════════════════════════════════ */
+        /* main content */
         .main-content {
             position: relative;
             flex-grow: 1;
@@ -869,7 +723,6 @@
             border-radius: inherit;
             box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.04);
         }
-        body.night-mode .page-wrapper::after { box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.15); }
 
         .page {
             height: 100%;
@@ -883,28 +736,6 @@
             -webkit-user-drag: none;
         }
 
-        .page-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: var(--text-muted);
-            background: var(--bg-tertiary);
-            border-radius: 16px;
-        }
-        .page-placeholder .ph-num {
-            font-family: 'Amiri', serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--accent);
-            opacity: 0.5;
-        }
-        .page-placeholder .ph-text { font-size: 12px; opacity: 0.6; }
-
-        /* Navigation buttons (desktop) */
         .nav-btn {
             position: absolute;
             top: 0;
@@ -930,7 +761,6 @@
         .nav-right { right: 0; --grad-dir: left; }
         .nav-left { left: 0; --grad-dir: right; }
 
-        /* Page indicator */
         .page-indicator {
             position: fixed;
             bottom: 20px;
@@ -954,34 +784,19 @@
         }
         .page-indicator.visible { opacity: 1; }
 
-        /* ═══════════════════════════════════
-           RESPONSIVE
-           ═══════════════════════════════════ */
         @media (max-width: 768px) {
             .quran-container { padding: 8px; gap: 0; }
             .page-wrapper { max-width: 100%; width: 100%; height: auto; border-radius: 12px; }
-            .page { max-height: 95vh; border-radius: 12px; }
             .nav-btn { display: none !important; }
             .btn-fullscreen { display: none !important; }
             .float-btn { width: 42px; height: 42px; }
-            .float-btn svg { width: 18px; height: 18px; }
             .float-btn-pill { padding: 8px 14px; font-size: 12px; }
-            .splash-title { font-size: 38px; }
-            .splash-card { padding: 36px 24px 28px; border-radius: 32px; }
             .juz-grid { grid-template-columns: repeat(2, 1fr); }
-            .juz-card { border-radius: 24px; padding: 22px 18px; }
-            .page-indicator { bottom: 16px; font-size: 13px; padding: 5px 14px; }
-        }
-
-        @media (max-width: 380px) {
-            .splash-title { font-size: 32px; }
-            .splash-card { padding: 28px 18px 22px; }
         }
     </style>
 </head>
-<body>
-
-    <!-- ═══ SPLASH ═══ -->
+<body class="theme-zard">
+    <!-- اسپلش مودال (از فایل 01) -->
     <div class="overlay splash-overlay active" id="splashOverlay">
         <div class="overlay-backdrop"></div>
         <div class="splash-card">
@@ -998,14 +813,14 @@
             </button>
             <div class="splash-link">
                 <a href="https://t.me/YBAKHTIAR" target="_blank">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.05-.2-.06-.06-.15-.04-.22-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.4-1.08.39-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.74-.56 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.05-.2-.06-.06-.15-.04-.22-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.4-1.08.39-.36-.1-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.37.74-.56 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .24z"/></svg>
                     پیشنهادات و نظریات
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- ═══ JUZ OVERLAY ═══ -->
+    <!-- JUZ overlay (از فایل 01) -->
     <div class="overlay juz-overlay" id="juzOverlay">
         <div class="overlay-backdrop"></div>
         <div class="juz-card">
@@ -1019,7 +834,7 @@
         </div>
     </div>
 
-    <!-- ═══ SETTINGS MODAL ═══ -->
+    <!-- مودال تنظیمات (ترکیب محتوای 02 با کلاس‌های 01) -->
     <div class="overlay settings-overlay" id="settingsOverlay">
         <div class="overlay-backdrop"></div>
         <div class="modal-card">
@@ -1028,23 +843,23 @@
                 تنظیمات
             </div>
 
+            <!-- بخش انتخاب تم اصلی (جدید) -->
+            <div class="settings-section">
+                <div class="section-label">تم اصلی</div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="settings-btn-row" id="themeZardBtn" style="flex:1;">🟡 زرد</button>
+                    <button class="settings-btn-row" id="themeAbiBtn" style="flex:1;">🔵 آبی</button>
+                </div>
+            </div>
+
+            <!-- بخش ظاهر (شامل حالت شب/روز و dark-ui) از 02 -->
             <div class="settings-section">
                 <div class="section-label">ظاهر</div>
                 <button class="settings-btn-row accent" id="themeToggle"></button>
-                <button class="settings-btn-row" id="darkUiToggle" style="display:none;"></button>
+                <button class="settings-btn-row" id="darkUiToggle"></button>
 
-                <!-- بخش تم‌ها (جدید) -->
-                <div class="section-label" style="margin-top: 16px;">تم‌ها</div>
-                <button class="theme-option-btn" id="themeOriginalBtn">
-                    <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" fill="currentColor"/></svg>
-                    تم اصلی
-                </button>
-                <button class="theme-option-btn" id="themeModernBtn">
-                    <svg viewBox="0 0 24 24" width="18" height="18"><rect x="4" y="4" width="16" height="16" rx="4" fill="currentColor"/></svg>
-                    تم مدرن
-                </button>
-
-                <div class="filter-panel" id="filterPanel" style="display:none;">
+                <!-- پنل تنظیمات فیلتر شب (از 01) -->
+                <div class="filter-panel" id="filterPanel">
                     <button class="filter-toggle" id="filterToggle">
                         <span>⚙ تنظیمات فیلتر شب</span>
                         <span class="arrow">▼</span>
@@ -1070,6 +885,7 @@
                 </div>
             </div>
 
+            <!-- بخش مدیریت حافظه -->
             <div class="settings-section">
                 <div class="section-label">مدیریت حافظه</div>
                 <button class="settings-btn-row danger" id="deleteOfflineBtn">
@@ -1082,7 +898,7 @@
         </div>
     </div>
 
-    <!-- ═══ DOWNLOAD MODAL ═══ -->
+    <!-- مودال دانلود (از 02 با کلاس‌های 01) -->
     <div class="overlay download-overlay" id="downloadOverlay">
         <div class="overlay-backdrop"></div>
         <div class="modal-card">
@@ -1091,7 +907,6 @@
                 انتخاب کیفیت
             </div>
             <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;">کیفیت مناسب خود را انتخاب کنید:</p>
-
             <button class="dl-option" id="dlStandard">
                 <div class="dl-main">
                     <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
@@ -1099,7 +914,6 @@
                 </div>
                 <div class="dl-sub">مناسب موبایل و تبلت</div>
             </button>
-
             <button class="dl-option" id="dlHQ">
                 <div class="dl-main">
                     <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
@@ -1107,12 +921,11 @@
                 </div>
                 <div class="dl-sub">مناسب کامپیوتر و صفحات بزرگ</div>
             </button>
-
             <button class="close-btn" id="downloadClose">لغو</button>
         </div>
     </div>
 
-    <!-- ═══ FLOATING BUTTONS ═══ -->
+    <!-- دکمه‌های شناور (از 01) -->
     <button class="float-btn btn-menu" id="btnMenu" title="فهرست اجزاء">
         <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
@@ -1129,12 +942,11 @@
 
     <div class="progress-pill" id="progressPill">در حال دانلود...</div>
 
-    <!-- ═══ MAIN CONTENT ═══ -->
+    <!-- محتوای اصلی -->
     <div class="main-content" id="swipeArea">
         <button class="nav-btn nav-right" id="navRight" title="صفحه قبل">
             <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
         </button>
-
         <div class="quran-container" id="quranContainer">
             <div class="page-wrapper" id="rightWrapper">
                 <img id="rightPage" class="page" alt="صفحه" draggable="false">
@@ -1143,728 +955,500 @@
                 <img id="leftPage" class="page" alt="صفحه" draggable="false">
             </div>
         </div>
-
         <button class="nav-btn nav-left" id="navLeft" title="صفحه بعد">
             <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         </button>
     </div>
 
-    <!-- ═══ PAGE INDICATOR ═══ -->
     <div class="page-indicator" id="pageIndicator"></div>
 
-<script>
-/* ═══════════════════════════════════════════
-   STORAGE WRAPPER (graceful fallback)
-   ═══════════════════════════════════════════ */
-const store = {
-    _mem: {},
-    get(key) {
-        return this._mem[key] || null;
-    },
-    set(key, val) {
-        this._mem[key] = val;
-    }
-};
+    <script>
+        // ================== CONST & STATE ==================
+        const totalPages = 623;
+        const GITHUB_BASE = 'https://raw.githubusercontent.com/YBakhtiar/quranh/main/';
+        let currentPage = 1;
+        let isDownloaded = false;
+        let objectUrls = { right: null, left: null };
+        let indicatorTimer = null;
 
-/* ═══════════════════════════════════════════
-   CUSTOM DIALOGS
-   ═══════════════════════════════════════════ */
-function showDialogConfirm(message, title) {
-    title = title || 'تأیید';
-    return new Promise(function(resolve) {
-        var overlay = document.createElement('div');
-        overlay.className = 'dialog-overlay';
-        overlay.innerHTML =
-            '<div class="overlay-backdrop"></div>' +
-            '<div class="dialog-card">' +
-                '<div class="dialog-title">' + title + '</div>' +
-                '<div class="dialog-message">' + message + '</div>' +
-                '<div class="dialog-actions">' +
-                    '<button class="dialog-btn dialog-btn-cancel" data-action="cancel">لغو</button>' +
-                    '<button class="dialog-btn dialog-btn-ok" data-action="ok">تأیید</button>' +
-                '</div>' +
-            '</div>';
-        function cleanup(result) {
-            overlay.remove();
-            resolve(result);
+        // zoom & pan
+        let currentScale = 1;
+        let translateX = 0, translateY = 0;
+        let lastTranslateX = 0, lastTranslateY = 0;
+        let initialPinchDistance = null;
+        let isPanning = false;
+        let lastTapTime = 0;
+        let hasMoved = false;
+
+        // ================== PWA & Service Worker ==================
+        let deferredPrompt = null;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW reg error:', err));
+            });
         }
-        overlay.querySelector('[data-action="ok"]').addEventListener('click', function() { cleanup(true); });
-        overlay.querySelector('[data-action="cancel"]').addEventListener('click', function() { cleanup(false); });
-        overlay.querySelector('.overlay-backdrop').addEventListener('click', function() { cleanup(false); });
-        document.body.appendChild(overlay);
-    });
-}
 
-function showToast(message, duration) {
-    duration = duration || 3000;
-    var toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    requestAnimationFrame(function() { toast.classList.add('visible'); });
-    setTimeout(function() {
-        toast.classList.remove('visible');
-        setTimeout(function() { toast.remove(); }, 300);
-    }, duration);
-}
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
 
-/* ═══════════════════════════════════════════
-   CONSTANTS & STATE
-   ═══════════════════════════════════════════ */
-var TOTAL_PAGES = 623;
-var GITHUB_BASE = 'https://raw.githubusercontent.com/YBakhtiar/quranh/main/';
+        // ================== تم اصلی (زرد/آبی) و حالت (شب/روز/dark-ui) ==================
+        let currentThemeStyle = localStorage.getItem('quran-theme-style') || 'zard'; // 'zard' یا 'abi'
+        let currentThemeMode = localStorage.getItem('quran-theme-mode') || 'day'; // 'day', 'night', 'dark-ui'
 
-var currentPage = 1;
-var isDownloaded = false;
-var objectUrls = { right: null, left: null };
-var indicatorTimer = null;
-
-// Zoom & Pan state
-var currentScale = 1;
-var translateX = 0, translateY = 0;
-var lastTranslateX = 0, lastTranslateY = 0;
-var initialPinchDistance = null;
-var isPanning = false;
-var lastTapTime = 0;
-var hasMoved = false;
-
-// Night filter defaults
-var DEFAULT_FILTER = { invert: 0.90, brightness: 1.10, contrast: 1.05 };
-var nightFilter;
-try {
-    nightFilter = JSON.parse(store.get('quran-night-filter')) || Object.assign({}, DEFAULT_FILTER);
-} catch(e) {
-    nightFilter = Object.assign({}, DEFAULT_FILTER);
-}
-var isDarkUI = store.get('quran-dark-ui') === 'true';
-
-// Theme style (original or modern)
-var currentThemeStyle = store.get('quran-theme-style') || 'original'; // 'original' or 'modern'
-
-/* ═══════════════════════════════════════════
-   THEME MANAGEMENT
-   ═══════════════════════════════════════════ */
-function updateNightFilter() {
-    var f = 'invert(' + nightFilter.invert + ') brightness(' + nightFilter.brightness + ') contrast(' + nightFilter.contrast + ') hue-rotate(180deg)';
-    document.documentElement.style.setProperty('--night-filter-value', f);
-    store.set('quran-night-filter', JSON.stringify(nightFilter));
-}
-updateNightFilter();
-
-function setThemeStyle(style) {
-    // Remove any existing theme style class
-    document.body.classList.remove('modern-theme');
-    if (style === 'modern') {
-        document.body.classList.add('modern-theme');
-    }
-    currentThemeStyle = style;
-    store.set('quran-theme-style', style);
-    // Reapply dark UI if needed (dark UI class may have different variables for each theme)
-    if (isDarkUI && !document.body.classList.contains('night-mode')) {
-        document.body.classList.add('dark-ui');
-    } else {
-        document.body.classList.remove('dark-ui');
-    }
-    refreshThemeButtons();
-}
-
-function setTheme(mode) {
-    if (mode === 'night') {
-        document.body.classList.add('night-mode');
-        document.body.classList.remove('dark-ui');
-        document.body.classList.remove('modern-theme'); // night mode overrides theme style
-    } else {
-        document.body.classList.remove('night-mode');
-        // Restore theme style
-        setThemeStyle(currentThemeStyle);
-    }
-    store.set('quran-theme', mode);
-    refreshSettingsUI();
-}
-
-function toggleTheme() {
-    setTheme(document.body.classList.contains('night-mode') ? 'day' : 'night');
-}
-
-function toggleDarkUI() {
-    if (document.body.classList.contains('night-mode')) return;
-    isDarkUI = !isDarkUI;
-    store.set('quran-dark-ui', String(isDarkUI));
-    if (isDarkUI) {
-        document.body.classList.add('dark-ui');
-    } else {
-        document.body.classList.remove('dark-ui');
-    }
-    refreshSettingsUI();
-}
-
-function refreshSettingsUI() {
-    var isNight = document.body.classList.contains('night-mode');
-    // Theme toggle button
-    var themeBtn = document.getElementById('themeToggle');
-    if (isNight) {
-        themeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></g></svg> حالت روز';
-    } else {
-        themeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/></svg> حالت شب';
-    }
-
-    // Dark UI toggle
-    var darkBtn = document.getElementById('darkUiToggle');
-    if (isNight) {
-        darkBtn.style.display = 'none';
-    } else {
-        darkBtn.style.display = 'flex';
-        darkBtn.textContent = isDarkUI ? '☀ پس‌زمینه روشن' : '◐ پس‌زمینه تیره';
-        darkBtn.className = 'settings-btn-row' + (isDarkUI ? ' accent' : '');
-    }
-
-    // Filter panel
-    var filterPanel = document.getElementById('filterPanel');
-    filterPanel.style.display = isNight ? 'block' : 'none';
-
-    // Theme buttons
-    refreshThemeButtons();
-}
-
-function refreshThemeButtons() {
-    var originalBtn = document.getElementById('themeOriginalBtn');
-    var modernBtn = document.getElementById('themeModernBtn');
-    if (!originalBtn || !modernBtn) return;
-    var isNight = document.body.classList.contains('night-mode');
-    // Disable theme buttons in night mode
-    originalBtn.disabled = isNight;
-    modernBtn.disabled = isNight;
-    if (isNight) {
-        originalBtn.classList.remove('active');
-        modernBtn.classList.remove('active');
-    } else {
-        if (currentThemeStyle === 'original') {
-            originalBtn.classList.add('active');
-            modernBtn.classList.remove('active');
-        } else {
-            modernBtn.classList.add('active');
-            originalBtn.classList.remove('active');
-        }
-    }
-}
-
-/* ═══════════════════════════════════════════
-   HELPERS
-   ═══════════════════════════════════════════ */
-function toPersianNum(num) {
-    var digits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-    return num.toString().replace(/\d/g, function(x) { return digits[x]; });
-}
-
-function formatPageNumber(num) { return String(num).padStart(3, '0'); }
-
-/* ═══════════════════════════════════════════
-   PAGE INDICATOR
-   ═══════════════════════════════════════════ */
-function showPageIndicator() {
-    var el = document.getElementById('pageIndicator');
-    var isMobile = window.innerWidth <= 768;
-    var displayPage = currentPage;
-    if (!isMobile && currentPage % 2 === 0) displayPage = currentPage - 1;
-    var text = 'صفحه ' + toPersianNum(displayPage);
-    if (!isMobile) {
-        var secondPage = displayPage + 1;
-        if (secondPage <= TOTAL_PAGES) text = toPersianNum(displayPage) + ' – ' + toPersianNum(secondPage);
-    }
-    text += ' از ' + toPersianNum(TOTAL_PAGES);
-    el.textContent = text;
-    el.classList.add('visible');
-    clearTimeout(indicatorTimer);
-    indicatorTimer = setTimeout(function() { el.classList.remove('visible'); }, 2200);
-}
-
-/* ═══════════════════════════════════════════
-   PAGE MANAGEMENT
-   ═══════════════════════════════════════════ */
-function applyTransform(smooth) {
-    var rightW = document.getElementById('rightWrapper');
-    var leftW = document.getElementById('leftWrapper');
-    var t = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + currentScale + ')';
-    [rightW, leftW].forEach(function(w) {
-        if (w) {
-            w.style.transition = smooth ? 'transform 0.3s ease-out' : 'none';
-            w.style.transform = t;
-        }
-    });
-}
-
-function resetZoom() {
-    currentScale = 1;
-    translateX = 0; translateY = 0;
-    lastTranslateX = 0; lastTranslateY = 0;
-    applyTransform(true);
-}
-
-function setupImageError(img, pageNum) {
-    img.onerror = function() {
-        var wrapper = this.parentElement;
-        if (wrapper && !wrapper.querySelector('.page-placeholder')) {
-            this.style.display = 'none';
-            var ph = document.createElement('div');
-            ph.className = 'page-placeholder';
-            ph.innerHTML = '<span class="ph-num">' + toPersianNum(pageNum) + '</span><span class="ph-text">بارگذاری نشد</span>';
-            wrapper.appendChild(ph);
-        }
-    };
-    img.onload = function() {
-        this.style.display = '';
-        var ph = this.parentElement && this.parentElement.querySelector('.page-placeholder');
-        if (ph) ph.remove();
-    };
-}
-
-async function loadPageImage(imgId, cacheKey, side, pageNum) {
-    var img = document.getElementById(imgId);
-    if (!img) return;
-
-    if (objectUrls[side]) { URL.revokeObjectURL(objectUrls[side]); objectUrls[side] = null; }
-
-    setupImageError(img, pageNum);
-
-    try {
-        var cache = await caches.open('quran-cache-v1');
-        var response = await cache.match(cacheKey);
-        if (response) {
-            var blob = await response.blob();
-            objectUrls[side] = URL.createObjectURL(blob);
-            img.src = objectUrls[side];
-            return;
-        }
-    } catch(e) { /* cache unavailable */ }
-
-    // Fallback to GitHub
-    var fileName = cacheKey.split('/').pop();
-    img.src = GITHUB_BASE + fileName;
-}
-
-function updatePages() {
-    resetZoom();
-    var isMobile = window.innerWidth <= 768;
-    var rightW = document.getElementById('rightWrapper');
-    var leftW = document.getElementById('leftWrapper');
-
-    if (isMobile) {
-        var url = 'images/Quran' + formatPageNumber(currentPage) + '.jpg';
-        loadPageImage('rightPage', url, 'right', currentPage);
-        leftW.style.display = 'none';
-        rightW.style.display = 'flex';
-    } else {
-        var rightPN = (currentPage % 2 !== 0) ? currentPage : currentPage - 1;
-        var leftPN = rightPN + 1;
-
-        loadPageImage('rightPage', 'images/Quran' + formatPageNumber(rightPN) + '.jpg', 'right', rightPN);
-
-        if (leftPN <= TOTAL_PAGES) {
-            loadPageImage('leftPage', 'images/Quran' + formatPageNumber(leftPN) + '.jpg', 'left', leftPN);
-            leftW.style.display = 'flex';
-        } else {
-            leftW.style.display = 'none';
-        }
-        rightW.style.display = 'flex';
-        if (currentPage % 2 === 0) currentPage = rightPN;
-    }
-
-    store.set('lastQuranPage', currentPage.toString());
-    try { if (window.location.protocol !== 'file:') history.replaceState(null, null, '#' + currentPage); } catch(e) { /* ignore */ }
-    showPageIndicator();
-}
-
-function animateNav(direction, callback) {
-    var container = document.getElementById('quranContainer');
-    container.style.opacity = '0.4';
-    container.style.transition = 'opacity 0.12s';
-    setTimeout(function() {
-        callback();
-        container.style.opacity = '1';
-    }, 120);
-}
-
-function nextPage() {
-    var step = window.innerWidth <= 768 ? 1 : 2;
-    if (currentPage + step <= TOTAL_PAGES) currentPage += step;
-    else if (currentPage < TOTAL_PAGES) currentPage++;
-    else return;
-    animateNav(1, updatePages);
-}
-
-function prevPage() {
-    var step = window.innerWidth <= 768 ? 1 : 2;
-    if (currentPage - step >= 1) currentPage -= step;
-    else if (currentPage > 1) currentPage--;
-    else return;
-    animateNav(-1, updatePages);
-}
-
-/* ═══════════════════════════════════════════
-   DOWNLOAD & OFFLINE
-   ═══════════════════════════════════════════ */
-async function startDownload(quality) {
-    closeOverlay('downloadOverlay');
-    var sizeText = quality === 'hq' ? '۵۰۰ مگابایت' : '۷۰ مگابایت';
-    var confirmed = await showDialogConfirm('فایل‌های آفلاین حدود ' + sizeText + ' حجم دارد. ادامه می‌دهید؟', 'دانلود آفلاین');
-    if (!confirmed) return;
-
-    var dlBtn = document.getElementById('btnDownload');
-    var progress = document.getElementById('progressPill');
-
-    dlBtn.style.pointerEvents = 'none';
-    dlBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/></svg> در حال دانلود...';
-    progress.style.display = 'block';
-    progress.textContent = 'در حال دانلود...';
-
-    var hqBaseUrl = GITHUB_BASE;
-
-    try {
-        var cache = await caches.open('quran-cache-v1');
-        var downloaded = 0;
-        var batch = 10;
-
-        for (var i = 1; i <= TOTAL_PAGES; i += batch) {
-            var promises = [];
-            for (var j = 0; j < batch && (i + j) <= TOTAL_PAGES; j++) {
-                (function(pageIdx) {
-                    var fileName = 'Quran' + String(pageIdx).padStart(3, '0') + '.jpg';
-                    var cacheKey = 'images/' + fileName;
-                    var fetchUrl = quality === 'hq' ? (hqBaseUrl + fileName) : cacheKey;
-                    promises.push(
-                        fetch(fetchUrl, { cache: 'reload' })
-                            .then(function(resp) {
-                                if (resp.ok) return cache.put(cacheKey, resp.clone()).then(function() { return true; });
-                                return false;
-                            })
-                            .catch(function() { return false; })
-                    );
-                })(i + j);
+        function applyTheme() {
+            // حذف کلاس‌های قبلی
+            document.body.classList.remove('theme-zard', 'theme-abi', 'night-mode', 'dark-ui');
+            // اعمال تم اصلی
+            document.body.classList.add(`theme-${currentThemeStyle}`);
+            // اعمال حالت
+            if (currentThemeMode === 'night') {
+                document.body.classList.add('night-mode');
+            } else if (currentThemeMode === 'dark-ui') {
+                document.body.classList.add('dark-ui');
             }
-            await Promise.all(promises);
-            downloaded += batch;
-            progress.textContent = 'پیشرفت: ' + toPersianNum(Math.min(downloaded, TOTAL_PAGES)) + ' از ' + toPersianNum(TOTAL_PAGES);
+            // به‌روزرسانی meta theme-color
+            const meta = document.getElementById('theme-color-meta');
+            if (currentThemeStyle === 'abi') {
+                if (currentThemeMode === 'night') meta.setAttribute('content', '#0b1424');
+                else if (currentThemeMode === 'dark-ui') meta.setAttribute('content', '#1a2538');
+                else meta.setAttribute('content', '#f0f7ff');
+            } else {
+                if (currentThemeMode === 'night') meta.setAttribute('content', '#0F1923');
+                else if (currentThemeMode === 'dark-ui') meta.setAttribute('content', '#1A2538');
+                else meta.setAttribute('content', '#FDF8F0');
+            }
+            updateThemeToggleButton();
+            updateDarkUIToggleButton();
+            updateThemeStyleButtons();
         }
 
-        setDownloadedUI();
-        showToast('دانلود با موفقیت انجام شد! ✓', 4000);
-        updatePages();
-    } catch(err) {
-        progress.textContent = '❌ خطا در دانلود';
-        dlBtn.style.pointerEvents = 'auto';
-        dlBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg> تلاش مجدد';
-    }
-}
-
-function setDownloadedUI() {
-    var dlBtn = document.getElementById('btnDownload');
-    var progress = document.getElementById('progressPill');
-    if (dlBtn) { dlBtn.style.display = 'none'; dlBtn.classList.add('done'); }
-    if (progress) progress.style.display = 'none';
-    isDownloaded = true;
-}
-
-function resetDownloadedUI() {
-    var dlBtn = document.getElementById('btnDownload');
-    if (dlBtn) {
-        dlBtn.style.display = 'flex';
-        dlBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/></svg> دانلود آفلاین';
-        dlBtn.style.pointerEvents = 'auto';
-        dlBtn.classList.remove('done');
-    }
-    isDownloaded = false;
-}
-
-async function deleteOfflineFiles() {
-    var confirmed = await showDialogConfirm('تمام فایل‌های دانلود شده حذف میشوند. ادامه می‌دهید؟', 'حذف فایل‌ها');
-    if (!confirmed) return;
-    try {
-        var progress = document.getElementById('progressPill');
-        progress.style.display = 'block';
-        progress.textContent = 'در حال حذف...';
-        await caches.delete('quran-cache-v1');
-        resetDownloadedUI();
-        progress.style.display = 'none';
-        showToast('فایل‌های آفلاین حذف شدند');
-        updatePages();
-    } catch(e) {
-        showToast('خطا در حذف فایل‌ها');
-    }
-}
-
-/* ═══════════════════════════════════════════
-   OVERLAY HELPERS
-   ═══════════════════════════════════════════ */
-function openOverlay(id) { document.getElementById(id).classList.add('active'); }
-function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-
-/* ═══════════════════════════════════════════
-   FULLSCREEN
-   ═══════════════════════════════════════════ */
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(function() {});
-    } else if (document.exitFullscreen) {
-        document.exitFullscreen();
-    }
-}
-
-/* ═══════════════════════════════════════════
-   TOUCH & GESTURE HANDLING
-   ═══════════════════════════════════════════ */
-var touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0, touchStartTime = 0;
-var swipeArea = document.getElementById('swipeArea');
-
-swipeArea.addEventListener('touchstart', function(e) {
-    if (e.touches.length >= 2) {
-        initialPinchDistance = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-        );
-        isPanning = false;
-    } else if (e.touches.length === 1) {
-        touchstartX = e.touches[0].clientX;
-        touchstartY = e.touches[0].clientY;
-        touchStartTime = Date.now();
-        hasMoved = false;
-        if (currentScale > 1) isPanning = true;
-    }
-}, { passive: false });
-
-swipeArea.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-    hasMoved = true;
-    if (e.touches.length >= 2 && initialPinchDistance) {
-        var dist = Math.hypot(
-            e.touches[0].clientX - e.touches[1].clientX,
-            e.touches[0].clientY - e.touches[1].clientY
-        );
-        currentScale = Math.min(Math.max(1, currentScale * (dist / initialPinchDistance)), 4);
-        initialPinchDistance = dist;
-        applyTransform(false);
-    } else if (e.touches.length === 1 && isPanning && currentScale > 1) {
-        translateX = lastTranslateX + (e.touches[0].clientX - touchstartX);
-        translateY = lastTranslateY + (e.touches[0].clientY - touchstartY);
-        applyTransform(false);
-    }
-}, { passive: false });
-
-swipeArea.addEventListener('touchend', function(e) {
-    if (e.touches.length > 0) {
-        initialPinchDistance = null;
-        if (e.touches.length === 1 && currentScale > 1) {
-            touchstartX = e.touches[0].clientX;
-            touchstartY = e.touches[0].clientY;
-            lastTranslateX = translateX;
-            lastTranslateY = translateY;
-            isPanning = true;
+        function setThemeStyle(style) {
+            currentThemeStyle = style;
+            localStorage.setItem('quran-theme-style', style);
+            applyTheme();
         }
-        return;
-    }
 
-    initialPinchDistance = null;
-    if (isPanning) { lastTranslateX = translateX; lastTranslateY = translateY; isPanning = false; }
+        function setThemeMode(mode) {
+            currentThemeMode = mode;
+            localStorage.setItem('quran-theme-mode', mode);
+            applyTheme();
+        }
 
-    if (!hasMoved) {
-        var now = Date.now();
-        if (now - lastTapTime < 300 && now - lastTapTime > 0) {
+        function toggleThemeMode() {
+            if (currentThemeMode === 'day') setThemeMode('night');
+            else if (currentThemeMode === 'night') setThemeMode('day');
+            else setThemeMode('day'); // از dark-ui به day
+        }
+
+        function toggleDarkUI() {
+            if (currentThemeMode === 'night') return; // غیرفعال در شب
+            if (currentThemeMode === 'dark-ui') setThemeMode('day');
+            else setThemeMode('dark-ui');
+        }
+
+        // به‌روزرسانی دکمه themeToggle
+        function updateThemeToggleButton() {
+            const btn = document.getElementById('themeToggle');
+            if (!btn) return;
+            if (currentThemeMode === 'night') {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/></g></svg> حالت روز`;
+            } else {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/></svg> حالت شب`;
+            }
+        }
+
+        function updateDarkUIToggleButton() {
+            const btn = document.getElementById('darkUiToggle');
+            if (!btn) return;
+            if (currentThemeMode === 'night') {
+                btn.style.display = 'none';
+                return;
+            }
+            btn.style.display = 'flex';
+            if (currentThemeMode === 'dark-ui') {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg> پس‌زمینه روشن`;
+                btn.classList.add('accent');
+            } else {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/></svg> پس‌زمینه تیره`;
+                btn.classList.remove('accent');
+            }
+        }
+
+        function updateThemeStyleButtons() {
+            document.getElementById('themeZardBtn').classList.toggle('accent', currentThemeStyle === 'zard');
+            document.getElementById('themeAbiBtn').classList.toggle('accent', currentThemeStyle === 'abi');
+        }
+
+        // ================== فیلتر شب ==================
+        const defaultFilter = { invert: 0.90, brightness: 1.10, contrast: 1.05 };
+        let nightFilter = JSON.parse(localStorage.getItem('quran-night-filter')) || { ...defaultFilter };
+
+        function updateNightFilter() {
+            const f = `invert(${nightFilter.invert}) brightness(${nightFilter.brightness}) contrast(${nightFilter.contrast}) hue-rotate(180deg)`;
+            document.documentElement.style.setProperty('--night-filter-value', f);
+            localStorage.setItem('quran-night-filter', JSON.stringify(nightFilter));
+        }
+        updateNightFilter();
+
+        // ================== توابع کمکی ==================
+        function toPersianNum(num) {
+            const digits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            return num.toString().replace(/\d/g, d => digits[d]);
+        }
+        function formatPageNumber(num) { return String(num).padStart(3, '0'); }
+
+        function showPageIndicator() {
+            const el = document.getElementById('pageIndicator');
+            const isMobile = window.innerWidth <= 768;
+            let displayPage = currentPage;
+            if (!isMobile && currentPage % 2 === 0) displayPage = currentPage - 1;
+            let text = 'صفحه ' + toPersianNum(displayPage);
+            if (!isMobile) {
+                let second = displayPage + 1;
+                if (second <= totalPages) text = toPersianNum(displayPage) + ' – ' + toPersianNum(second);
+            }
+            text += ' از ' + toPersianNum(totalPages);
+            el.textContent = text;
+            el.classList.add('visible');
+            clearTimeout(indicatorTimer);
+            indicatorTimer = setTimeout(() => el.classList.remove('visible'), 2200);
+        }
+
+        // ================== مدیریت صفحات و کش ==================
+        async function loadPageImage(imgId, urlPath, side) {
+            const img = document.getElementById(imgId);
+            if (!img) return;
+            if (objectUrls[side]) { URL.revokeObjectURL(objectUrls[side]); objectUrls[side] = null; }
+            try {
+                const cache = await caches.open('quran-cache-v1');
+                const response = await cache.match(urlPath);
+                if (response) {
+                    const blob = await response.blob();
+                    const objUrl = URL.createObjectURL(blob);
+                    objectUrls[side] = objUrl;
+                    img.src = objUrl;
+                } else {
+                    img.src = urlPath;
+                }
+            } catch {
+                img.src = urlPath;
+            }
+        }
+
+        function updatePages() {
             resetZoom();
-            lastTapTime = 0;
-            return;
-        }
-        lastTapTime = now;
-    } else {
-        lastTapTime = 0;
-    }
+            const isMobile = window.innerWidth <= 768;
+            const rightW = document.getElementById('rightWrapper');
+            const leftW = document.getElementById('leftWrapper');
 
-    if (currentScale <= 1.05 && e.changedTouches.length === 1 && hasMoved) {
-        touchendX = e.changedTouches[0].clientX;
-        touchendY = e.changedTouches[0].clientY;
-        var diffX = Math.abs(touchendX - touchstartX);
-        var diffY = Math.abs(touchendY - touchstartY);
-        var timeDiff = Date.now() - touchStartTime;
-
-        if (diffX > 80 && diffX > diffY * 2 && timeDiff < 600) {
-            if (touchendX > touchstartX) nextPage(); else prevPage();
-        }
-    }
-}, { passive: false });
-
-/* ═══════════════════════════════════════════
-   KEYBOARD NAVIGATION
-   ═══════════════════════════════════════════ */
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowLeft') { e.preventDefault(); nextPage(); }
-    if (e.key === 'ArrowRight') { e.preventDefault(); prevPage(); }
-});
-
-/* ═══════════════════════════════════════════
-   BUILD JUZ GRID
-   ═══════════════════════════════════════════ */
-(function buildJuzGrid() {
-    var grid = document.getElementById('juzGrid');
-    for (var i = 1; i <= 30; i++) {
-        var startPage;
-        if (i === 1) startPage = 3;
-        else if (i === 30) startPage = 588;
-        else startPage = 4 + ((i - 1) * 20);
-
-        var btn = document.createElement('button');
-        btn.className = 'juz-item';
-        btn.textContent = 'جزء ' + toPersianNum(i);
-        btn.style.animationDelay = (i * 25) + 'ms';
-        (function(sp) {
-            btn.addEventListener('click', function() {
-                var target = sp;
-                if (window.innerWidth > 768 && target % 2 === 0) target -= 1;
-                currentPage = target;
-                updatePages();
-                closeOverlay('juzOverlay');
-            });
-        })(startPage);
-        grid.appendChild(btn);
-    }
-})();
-
-/* ═══════════════════════════════════════════
-   EVENT BINDINGS
-   ═══════════════════════════════════════════ */
-// Floating buttons
-document.getElementById('btnMenu').addEventListener('click', function() { openOverlay('juzOverlay'); });
-document.getElementById('btnSettings').addEventListener('click', function() { openOverlay('settingsOverlay'); });
-document.getElementById('btnDownload').addEventListener('click', function() { openOverlay('downloadOverlay'); });
-document.getElementById('btnFullscreen').addEventListener('click', toggleFullScreen);
-
-// Nav buttons
-document.getElementById('navRight').addEventListener('click', prevPage);
-document.getElementById('navLeft').addEventListener('click', nextPage);
-
-// Splash
-document.getElementById('splashContinue').addEventListener('click', function() { closeOverlay('splashOverlay'); });
-document.getElementById('splashJuzList').addEventListener('click', function() { closeOverlay('splashOverlay'); openOverlay('juzOverlay'); });
-
-// Juz overlay
-document.getElementById('juzContinueBtn').addEventListener('click', function() { closeOverlay('juzOverlay'); });
-
-// Settings
-document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-document.getElementById('darkUiToggle').addEventListener('click', toggleDarkUI);
-document.getElementById('settingsClose').addEventListener('click', function() { closeOverlay('settingsOverlay'); });
-document.getElementById('deleteOfflineBtn').addEventListener('click', deleteOfflineFiles);
-
-// Theme buttons
-document.getElementById('themeOriginalBtn').addEventListener('click', function() {
-    if (document.body.classList.contains('night-mode')) return;
-    setThemeStyle('original');
-});
-document.getElementById('themeModernBtn').addEventListener('click', function() {
-    if (document.body.classList.contains('night-mode')) return;
-    setThemeStyle('modern');
-});
-
-// Filter panel
-document.getElementById('filterToggle').addEventListener('click', function() {
-    this.classList.toggle('open');
-    document.getElementById('filterSliders').classList.toggle('visible');
-});
-
-var sliderInvert = document.getElementById('sliderInvert');
-var sliderBrightness = document.getElementById('sliderBrightness');
-var sliderContrast = document.getElementById('sliderContrast');
-var valInvert = document.getElementById('valInvert');
-var valBrightness = document.getElementById('valBrightness');
-var valContrast = document.getElementById('valContrast');
-
-function syncSliders() {
-    nightFilter.invert = parseFloat(sliderInvert.value);
-    nightFilter.brightness = parseFloat(sliderBrightness.value);
-    nightFilter.contrast = parseFloat(sliderContrast.value);
-    valInvert.textContent = nightFilter.invert.toFixed(2);
-    valBrightness.textContent = nightFilter.brightness.toFixed(2);
-    valContrast.textContent = nightFilter.contrast.toFixed(2);
-    updateNightFilter();
-}
-
-sliderInvert.value = nightFilter.invert;
-sliderBrightness.value = nightFilter.brightness;
-sliderContrast.value = nightFilter.contrast;
-valInvert.textContent = nightFilter.invert.toFixed(2);
-valBrightness.textContent = nightFilter.brightness.toFixed(2);
-valContrast.textContent = nightFilter.contrast.toFixed(2);
-
-sliderInvert.addEventListener('input', syncSliders);
-sliderBrightness.addEventListener('input', syncSliders);
-sliderContrast.addEventListener('input', syncSliders);
-
-document.getElementById('filterReset').addEventListener('click', function() {
-    nightFilter = Object.assign({}, DEFAULT_FILTER);
-    sliderInvert.value = nightFilter.invert;
-    sliderBrightness.value = nightFilter.brightness;
-    sliderContrast.value = nightFilter.contrast;
-    syncSliders();
-});
-
-// Download modal
-document.getElementById('dlStandard').addEventListener('click', function() { startDownload('standard'); });
-document.getElementById('dlHQ').addEventListener('click', function() { startDownload('hq'); });
-document.getElementById('downloadClose').addEventListener('click', function() { closeOverlay('downloadOverlay'); });
-
-// Close overlays on backdrop click
-['juzOverlay', 'settingsOverlay', 'downloadOverlay'].forEach(function(id) {
-    var el = document.getElementById(id);
-    var backdrop = el.querySelector('.overlay-backdrop');
-    if (backdrop) backdrop.addEventListener('click', function() { closeOverlay(id); });
-});
-
-// Resize & orientation
-window.addEventListener('resize', updatePages);
-window.addEventListener('orientationchange', function() { setTimeout(updatePages, 50); });
-
-/* ═══════════════════════════════════════════
-   INITIALIZATION
-   ═══════════════════════════════════════════ */
-(function init() {
-    // Detect system dark mode
-    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var savedTheme = store.get('quran-theme');
-
-    if (savedTheme) {
-        setTheme(savedTheme);
-    } else {
-        setTheme(systemDark ? 'night' : 'day');
-    }
-
-    // Apply saved theme style (if day mode)
-    if (!document.body.classList.contains('night-mode')) {
-        setThemeStyle(currentThemeStyle);
-    }
-
-    // Listen for system theme changes
-    if (window.matchMedia) {
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-            if (!store.get('quran-theme')) {
-                setTheme(e.matches ? 'night' : 'day');
+            if (isMobile) {
+                const url = 'images/Quran' + formatPageNumber(currentPage) + '.jpg';
+                loadPageImage('rightPage', url, 'right');
+                leftW.style.display = 'none';
+                rightW.style.display = 'flex';
+            } else {
+                let rightPN = (currentPage % 2 !== 0) ? currentPage : currentPage - 1;
+                let leftPN = rightPN + 1;
+                loadPageImage('rightPage', 'images/Quran' + formatPageNumber(rightPN) + '.jpg', 'right');
+                if (leftPN <= totalPages) {
+                    loadPageImage('leftPage', 'images/Quran' + formatPageNumber(leftPN) + '.jpg', 'left');
+                    leftW.style.display = 'flex';
+                } else {
+                    leftW.style.display = 'none';
+                }
+                rightW.style.display = 'flex';
+                if (currentPage % 2 === 0) currentPage = rightPN;
             }
-        });
-    }
+            localStorage.setItem('lastQuranPage', currentPage.toString());
+            if (window.location.protocol !== 'file:') history.replaceState(null, null, '#' + currentPage);
+            showPageIndicator();
+        }
 
-    // Load saved page
-    var saved = store.get('lastQuranPage');
-    if (saved && !isNaN(parseInt(saved))) {
-        currentPage = parseInt(saved);
-    }
-    updatePages();
-
-    // Check offline cache
-    try {
-        caches.open('quran-cache-v1').then(function(cache) {
-            cache.match('images/Quran001.jpg').then(function(res) {
-                if (res) setDownloadedUI();
+        function resetZoom() {
+            currentScale = 1;
+            translateX = 0; translateY = 0;
+            lastTranslateX = 0; lastTranslateY = 0;
+            applyTransform(true);
+        }
+        function applyTransform(smooth) {
+            const rightW = document.getElementById('rightWrapper');
+            const leftW = document.getElementById('leftWrapper');
+            const t = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+            [rightW, leftW].forEach(w => {
+                if (w) {
+                    w.style.transition = smooth ? 'transform 0.3s ease-out' : 'none';
+                    w.style.transform = t;
+                }
             });
-        });
-    } catch(e) { /* cache unavailable */ }
-})();
-</script>
+        }
 
+        function nextPage() {
+            let step = window.innerWidth <= 768 ? 1 : 2;
+            if (currentPage + step <= totalPages) currentPage += step;
+            else if (currentPage < totalPages) currentPage++;
+            else return;
+            document.getElementById('quranContainer').style.opacity = '0.4';
+            setTimeout(() => { updatePages(); document.getElementById('quranContainer').style.opacity = '1'; }, 120);
+        }
+        function prevPage() {
+            let step = window.innerWidth <= 768 ? 1 : 2;
+            if (currentPage - step >= 1) currentPage -= step;
+            else if (currentPage > 1) currentPage--;
+            else return;
+            document.getElementById('quranContainer').style.opacity = '0.4';
+            setTimeout(() => { updatePages(); document.getElementById('quranContainer').style.opacity = '1'; }, 120);
+        }
+
+        // ================== دانلود و کش ==================
+        async function startDownload(quality) {
+            closeOverlay('downloadOverlay');
+            let sizeText = quality === 'hq' ? '۵۰۰ مگابایت' : '۷۰ مگابایت';
+            if (!confirm(`آیا مطمئن هستید؟ فایل‌های آفلاین حدود ${sizeText} حجم دارد.`)) return;
+            const dlBtn = document.getElementById('btnDownload');
+            const progress = document.getElementById('progressPill');
+            dlBtn.style.pointerEvents = 'none';
+            dlBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="currentColor"/></svg> در حال دانلود...';
+            progress.style.display = 'block';
+            progress.textContent = 'در حال دانلود...';
+
+            try {
+                const cache = await caches.open('quran-cache-v1');
+                let downloaded = 0;
+                const batch = 10;
+                for (let i = 1; i <= totalPages; i += batch) {
+                    const promises = [];
+                    for (let j = 0; j < batch && i + j <= totalPages; j++) {
+                        let pageNum = String(i + j).padStart(3, '0');
+                        let fileName = 'Quran' + pageNum + '.jpg';
+                        let cacheKey = 'images/' + fileName;
+                        let fetchUrl = quality === 'hq' ? GITHUB_BASE + fileName : cacheKey;
+                        promises.push(
+                            fetch(fetchUrl, { cache: 'reload' })
+                                .then(resp => resp.ok ? cache.put(cacheKey, resp.clone()) : null)
+                                .catch(() => null)
+                        );
+                    }
+                    await Promise.all(promises);
+                    downloaded += batch;
+                    progress.textContent = 'پیشرفت: ' + toPersianNum(Math.min(downloaded, totalPages)) + ' از ' + toPersianNum(totalPages);
+                }
+                setDownloadedUI();
+                alert('دانلود با موفقیت انجام شد!');
+                updatePages();
+            } catch (err) {
+                progress.textContent = '❌ خطا در دانلود';
+                dlBtn.style.pointerEvents = 'auto';
+                dlBtn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg> تلاش مجدد';
+            }
+        }
+
+        function setDownloadedUI() {
+            const btn = document.getElementById('btnDownload');
+            const prog = document.getElementById('progressPill');
+            if (btn) { btn.style.display = 'none'; btn.classList.add('done'); }
+            if (prog) prog.style.display = 'none';
+            isDownloaded = true;
+        }
+        function resetDownloadedUI() {
+            const btn = document.getElementById('btnDownload');
+            if (btn) {
+                btn.style.display = 'flex';
+                btn.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/></svg> دانلود آفلاین';
+                btn.style.pointerEvents = 'auto';
+                btn.classList.remove('done');
+            }
+            isDownloaded = false;
+        }
+
+        async function deleteOfflineFiles() {
+            if (!confirm('فایل‌های آفلاین حذف شوند؟')) return;
+            const prog = document.getElementById('progressPill');
+            prog.style.display = 'block';
+            prog.textContent = 'در حال حذف...';
+            try {
+                await caches.delete('quran-cache-v1');
+                resetDownloadedUI();
+                prog.style.display = 'none';
+                alert('فایل‌های آفلاین حذف شدند.');
+                updatePages();
+            } catch {
+                prog.style.display = 'none';
+                alert('خطا در حذف');
+            }
+        }
+
+        // ================== مودال‌ها ==================
+        function openOverlay(id) { document.getElementById(id).classList.add('active'); }
+        function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+            else if (document.exitFullscreen) document.exitFullscreen();
+        }
+
+        // ================== تولید JUZ grid ==================
+        (function buildJuzGrid() {
+            const grid = document.getElementById('juzGrid');
+            for (let i = 1; i <= 30; i++) {
+                let startPage;
+                if (i === 1) startPage = 3;
+                else if (i === 30) startPage = 588;
+                else startPage = 4 + ((i - 1) * 20);
+                const btn = document.createElement('button');
+                btn.className = 'juz-item';
+                btn.textContent = 'جزء ' + toPersianNum(i);
+                btn.onclick = () => {
+                    let target = startPage;
+                    if (window.innerWidth > 768 && target % 2 === 0) target--;
+                    currentPage = target;
+                    updatePages();
+                    closeOverlay('juzOverlay');
+                };
+                grid.appendChild(btn);
+            }
+        })();
+
+        // ================== Event Listeners ==================
+        document.getElementById('btnMenu').addEventListener('click', () => openOverlay('juzOverlay'));
+        document.getElementById('btnSettings').addEventListener('click', () => openOverlay('settingsOverlay'));
+        document.getElementById('btnDownload').addEventListener('click', () => openOverlay('downloadOverlay'));
+        document.getElementById('btnFullscreen').addEventListener('click', toggleFullScreen);
+        document.getElementById('navRight').addEventListener('click', prevPage);
+        document.getElementById('navLeft').addEventListener('click', nextPage);
+        document.getElementById('splashContinue').addEventListener('click', () => closeOverlay('splashOverlay'));
+        document.getElementById('splashJuzList').addEventListener('click', () => { closeOverlay('splashOverlay'); openOverlay('juzOverlay'); });
+        document.getElementById('juzContinueBtn').addEventListener('click', () => closeOverlay('juzOverlay'));
+
+        // تنظیمات
+        document.getElementById('themeToggle').addEventListener('click', toggleThemeMode);
+        document.getElementById('darkUiToggle').addEventListener('click', toggleDarkUI);
+        document.getElementById('settingsClose').addEventListener('click', () => closeOverlay('settingsOverlay'));
+        document.getElementById('deleteOfflineBtn').addEventListener('click', deleteOfflineFiles);
+        document.getElementById('themeZardBtn').addEventListener('click', () => setThemeStyle('zard'));
+        document.getElementById('themeAbiBtn').addEventListener('click', () => setThemeStyle('abi'));
+
+        // فیلتر
+        document.getElementById('filterToggle').addEventListener('click', function() {
+            this.classList.toggle('open');
+            document.getElementById('filterSliders').classList.toggle('visible');
+        });
+        const invertSlider = document.getElementById('sliderInvert');
+        const brightSlider = document.getElementById('sliderBrightness');
+        const contrastSlider = document.getElementById('sliderContrast');
+        function syncFilter() {
+            nightFilter.invert = parseFloat(invertSlider.value);
+            nightFilter.brightness = parseFloat(brightSlider.value);
+            nightFilter.contrast = parseFloat(contrastSlider.value);
+            document.getElementById('valInvert').textContent = nightFilter.invert.toFixed(2);
+            document.getElementById('valBrightness').textContent = nightFilter.brightness.toFixed(2);
+            document.getElementById('valContrast').textContent = nightFilter.contrast.toFixed(2);
+            updateNightFilter();
+        }
+        invertSlider.value = nightFilter.invert;
+        brightSlider.value = nightFilter.brightness;
+        contrastSlider.value = nightFilter.contrast;
+        invertSlider.addEventListener('input', syncFilter);
+        brightSlider.addEventListener('input', syncFilter);
+        contrastSlider.addEventListener('input', syncFilter);
+        document.getElementById('filterReset').addEventListener('click', () => {
+            nightFilter = { ...defaultFilter };
+            invertSlider.value = nightFilter.invert;
+            brightSlider.value = nightFilter.brightness;
+            contrastSlider.value = nightFilter.contrast;
+            syncFilter();
+        });
+
+        // دانلود
+        document.getElementById('dlStandard').addEventListener('click', () => startDownload('standard'));
+        document.getElementById('dlHQ').addEventListener('click', () => startDownload('hq'));
+        document.getElementById('downloadClose').addEventListener('click', () => closeOverlay('downloadOverlay'));
+
+        // بستن مودال‌ها با کلیک روی backdrop
+        ['juzOverlay', 'settingsOverlay', 'downloadOverlay'].forEach(id => {
+            const el = document.getElementById(id);
+            el.querySelector('.overlay-backdrop').addEventListener('click', () => closeOverlay(id));
+        });
+
+        // ================== رویدادهای لمسی ==================
+        const swipeArea = document.getElementById('swipeArea');
+        let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0, touchStartTime = 0;
+        swipeArea.addEventListener('touchstart', e => {
+            if (e.touches.length >= 2) {
+                initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                isPanning = false;
+            } else if (e.touches.length === 1) {
+                touchstartX = e.touches[0].clientX; touchstartY = e.touches[0].clientY;
+                touchStartTime = Date.now(); hasMoved = false;
+                if (currentScale > 1) isPanning = true;
+            }
+        }, { passive: false });
+        swipeArea.addEventListener('touchmove', e => {
+            e.preventDefault(); hasMoved = true;
+            if (e.touches.length >= 2 && initialPinchDistance) {
+                let dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                currentScale = Math.min(Math.max(1, currentScale * (dist / initialPinchDistance)), 4);
+                initialPinchDistance = dist;
+                applyTransform(false);
+            } else if (e.touches.length === 1 && isPanning && currentScale > 1) {
+                translateX = lastTranslateX + (e.touches[0].clientX - touchstartX);
+                translateY = lastTranslateY + (e.touches[0].clientY - touchstartY);
+                applyTransform(false);
+            }
+        }, { passive: false });
+        swipeArea.addEventListener('touchend', e => {
+            if (e.touches.length > 0) {
+                initialPinchDistance = null;
+                if (e.touches.length === 1 && currentScale > 1) {
+                    touchstartX = e.touches[0].clientX; touchstartY = e.touches[0].clientY;
+                    lastTranslateX = translateX; lastTranslateY = translateY; isPanning = true;
+                }
+                return;
+            }
+            initialPinchDistance = null;
+            if (isPanning) { lastTranslateX = translateX; lastTranslateY = translateY; isPanning = false; }
+            if (!hasMoved) {
+                let now = Date.now();
+                if (now - lastTapTime < 300 && now - lastTapTime > 0) { resetZoom(); lastTapTime = 0; return; }
+                lastTapTime = now;
+            } else lastTapTime = 0;
+
+            if (currentScale <= 1.05 && e.changedTouches.length === 1 && hasMoved) {
+                touchendX = e.changedTouches[0].clientX; touchendY = e.changedTouches[0].clientY;
+                let diffX = Math.abs(touchendX - touchstartX), diffY = Math.abs(touchendY - touchstartY);
+                let timeDiff = Date.now() - touchStartTime;
+                if (diffX > 80 && diffX > diffY * 2 && timeDiff < 600) {
+                    if (touchendX > touchstartX) nextPage(); else prevPage();
+                }
+            }
+        }, { passive: false });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') { e.preventDefault(); nextPage(); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); prevPage(); }
+        });
+
+        window.addEventListener('resize', updatePages);
+        window.addEventListener('orientationchange', () => setTimeout(updatePages, 50));
+
+        // ================== مقداردهی اولیه ==================
+        (function init() {
+            // تم
+            applyTheme();
+
+            // صفحه آخر
+            let saved = localStorage.getItem('lastQuranPage');
+            if (saved && !isNaN(parseInt(saved))) currentPage = parseInt(saved);
+            updatePages();
+
+            // بررسی کش
+            caches.open('quran-cache-v1').then(cache => {
+                cache.match('images/Quran001.jpg').then(res => { if (res) setDownloadedUI(); });
+            });
+        })();
+    </script>
 </body>
 </html>
