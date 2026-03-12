@@ -51,7 +51,7 @@
             --transition-base: 0.3s ease;
         }
 
-        /* تم شب */
+        /* تم شب (همراه با فیلتر تصاویر) */
         body.night-mode {
             --bg-primary: #0b1424;
             --bg-secondary: #1f2a40;
@@ -72,6 +72,29 @@
             --juz-card-bg: rgba(30, 40, 60, 0.8);
             --modal-bg: #1f2a40;
             --image-filter: var(--night-filter);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.6);
+            --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.7);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        /* حالت پس‌زمینه تیره (بدون فیلتر تصاویر) - فقط در روز فعال می‌شود */
+        body.dark-ui:not(.night-mode) {
+            --bg-primary: #1a2538;
+            --bg-secondary: #2c3a50;
+            --bg-tertiary: #3a4a64;
+            --text-primary: #eef2f8;
+            --text-secondary: #cbd5e8;
+            --text-muted: #9aafcc;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --button-bg: rgba(40, 55, 75, 0.8);
+            --button-hover: rgba(55, 75, 100, 0.95);
+            --accent-color: #4f9eff;
+            --accent-soft: rgba(79, 158, 255, 0.2);
+            --splash-bg: rgba(20, 30, 45, 0.8);
+            --juz-card-bg: rgba(35, 50, 70, 0.8);
+            --modal-bg: #2c3a50;
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.6);
             --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.7);
@@ -211,8 +234,8 @@
             background: var(--modal-bg);
             border: 1px solid var(--border-light);
             border-radius: 32px;
-            padding: 24px;
-            max-width: 400px;
+            padding: 28px;
+            max-width: 420px;
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
@@ -229,13 +252,15 @@
 
         .modal-content h3 {
             margin-top: 0;
-            margin-bottom: 8px;
-            font-size: 20px;
+            margin-bottom: 16px;
+            font-size: 22px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
             color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 12px;
         }
         .modal-content h3 svg {
             width: 24px;
@@ -248,7 +273,7 @@
             margin-bottom: 20px;
         }
 
-        .dl-opt-btn, .theme-toggle-item, .delete-offline-item, .install-btn {
+        .dl-opt-btn, .install-btn {
             width: 100%;
             padding: 16px;
             margin: 8px 0;
@@ -268,7 +293,7 @@
             -webkit-backdrop-filter: blur(4px);
         }
 
-        .dl-opt-btn:hover, .theme-toggle-item:hover, .delete-offline-item:hover, .install-btn:hover {
+        .dl-opt-btn:hover, .install-btn:hover {
             background: var(--button-hover);
             border-color: var(--border-hover);
             transform: translateY(-2px);
@@ -287,40 +312,101 @@
             margin-top: 4px;
         }
 
-        .delete-offline-item {
-            border-color: var(--danger-color);
-            color: var(--danger-color);
-            background: var(--danger-soft);
-            flex-direction: row;
+        /* بخش‌بندی تنظیمات */
+        .settings-section {
+            margin-bottom: 24px;
+        }
+        .settings-section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding-right: 4px;
+        }
+
+        /* دکمه‌های تنظیمات (تم، پس‌زمینه تیره، حذف) */
+        .theme-toggle-item, .dark-ui-toggle-item, .delete-offline-item {
+            width: 100%;
+            padding: 16px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: flex;
+            align-items: center;
             justify-content: center;
             gap: 8px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            margin: 8px 0;
         }
 
         .theme-toggle-item {
+            border: 1px solid var(--accent-color);
             background: var(--accent-soft);
-            border-color: var(--accent-color);
-            flex-direction: row;
-            justify-content: center;
-            gap: 8px;
             color: var(--accent-color);
+        }
+        body.night-mode .theme-toggle-item {
+            color: white; /* در حالت شب متن و آیکون سفید */
+            border-color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .theme-toggle-item:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .dark-ui-toggle-item {
+            border: 1px solid var(--border-light);
+            background: var(--button-bg);
+            color: var(--text-primary);
+        }
+        .dark-ui-toggle-item.active {
+            border-color: var(--accent-color);
+            background: var(--accent-soft);
+            color: var(--accent-color);
+        }
+        .dark-ui-toggle-item:hover {
+            background: var(--button-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .delete-offline-item {
+            border: 1px solid var(--danger-color);
+            background: var(--danger-soft);
+            color: var(--danger-color);
+        }
+        .delete-offline-item:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .cancel-btn {
             background: transparent;
             border: 1px solid var(--border-light);
             color: var(--text-muted);
-            padding: 12px 24px;
+            padding: 14px 24px;
             border-radius: 40px;
             margin-top: 16px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
             transition: all var(--transition-base);
             width: 100%;
         }
         .cancel-btn:hover {
             background: var(--button-hover);
             color: var(--text-primary);
+            border-color: var(--border-hover);
         }
 
         .install-section {
@@ -432,12 +518,17 @@
             border-color: var(--accent-color);
             color: var(--accent-color);
         }
+        body.night-mode .splash-btn:first-of-type,
+        body.dark-ui .splash-btn:first-of-type {
+            color: white; /* در حالت شب یا پس‌زمینه تیره، متن سفید */
+            border-color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
         .splash-btn:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
             background: var(--button-hover);
         }
-        /* کاهش اندازه آیکون‌ها در اسپلش */
         .splash-btn svg {
             width: 20px;
             height: 20px;
@@ -458,6 +549,11 @@
         }
         .telegram-link a:hover {
             color: var(--accent-color);
+        }
+        .telegram-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
         }
 
         /* مودال اجزاء */
@@ -505,10 +601,20 @@
             gap: 8px;
         }
         .juz-card .continue-btn:hover {
-            background: var(--accent-soft);
             filter: brightness(1.1);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+        }
+        body.night-mode .juz-card .continue-btn,
+        body.dark-ui .juz-card .continue-btn {
+            color: white;
+            border-color: white;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .juz-card .continue-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
         }
         .juz-list-container {
             overflow-y: auto;
@@ -575,6 +681,12 @@
         }
         .night-settings-toggle.active .arrow {
             transform: rotate(180deg);
+        }
+        .night-settings-toggle svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            margin-left: 8px;
         }
         .night-settings-panel {
             padding: 16px;
@@ -677,10 +789,10 @@
             overflow: hidden;
             box-shadow: var(--shadow-xl);
             transition: box-shadow 0.3s ease;
-            background: white; /* fallback for pages */
+            background: var(--bg-primary); /* جلوگیری از حاشیه سفید */
         }
         body.night-mode .page-wrapper {
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
         .page {
@@ -695,12 +807,12 @@
             transition: filter 0.3s ease;
         }
 
-        /* دکمه‌های نویگیشن تمام‌قد با افکت شیشه‌ای */
+        /* دکمه‌های نویگیشن باریک */
         .nav-btn {
             position: absolute;
             top: 0;
             height: 100%;
-            width: 80px;
+            width: 50px;
             background: transparent;
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
@@ -711,7 +823,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 28px;
             opacity: 0.6;
             transition: all var(--transition-base);
         }
@@ -731,8 +843,8 @@
             background: linear-gradient(to right, var(--button-bg), transparent);
         }
         .nav-btn svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             fill: currentColor;
         }
 
@@ -875,7 +987,7 @@
         </div>
     </div>
 
-    <!-- مودال تنظیمات -->
+    <!-- مودال تنظیمات - طراحی حرفه‌ای‌تر -->
     <div id="settingsModal" class="modal-overlay">
         <div class="modal-content">
             <h3>
@@ -885,41 +997,57 @@
                 تنظیمات
             </h3>
             
-            <!-- دکمه تغییر تم -->
-            <button class="theme-toggle-item" id="settingsThemeToggle">
-                <!-- آیکون و متن توسط JS تنظیم می‌شود -->
-            </button>
-            
-            <!-- تنظیمات حالت شب (اسلایدرها) -->
-            <div class="night-settings-container" id="settingsNightContainer">
-                <button class="night-settings-toggle" id="settingsNightToggle">
-                    <span><svg viewBox="0 0 24 24" width="18" height="18" style="margin-left: 8px;"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg> تنظیمات حالت شب</span><span class="arrow">▼</span>
+            <!-- بخش ظاهر -->
+            <div class="settings-section">
+                <div class="settings-section-title">ظاهر</div>
+                <!-- دکمه تغییر تم (شب/روز) -->
+                <button class="theme-toggle-item" id="settingsThemeToggle">
+                    <!-- آیکون و متن توسط JS تنظیم می‌شود -->
                 </button>
-                <div class="night-settings-panel" id="settingsNightPanel">
-                    <div class="slider-container">
-                        <label>Invert <span class="slider-value" id="settingsInvertVal">0.90</span></label>
-                        <input type="range" id="settingsInvertSlider" min="0" max="1" step="0.01" value="0.90">
-                    </div>
-                    <div class="slider-container">
-                        <label>Brightness <span class="slider-value" id="settingsBrightnessVal">1.10</span></label>
-                        <input type="range" id="settingsBrightnessSlider" min="0.2" max="2" step="0.01" value="1.10">
-                    </div>
-                    <div class="slider-container">
-                        <label>Contrast <span class="slider-value" id="settingsContrastVal">1.05</span></label>
-                        <input type="range" id="settingsContrastSlider" min="0.5" max="3" step="0.01" value="1.05">
-                    </div>
-                    <button class="reset-filter-btn" id="settingsResetFilterBtn">
-                        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-                        بازنشانی
+                
+                <!-- دکمه پس‌زمینه تیره (فقط در حالت روز فعال) -->
+                <button class="dark-ui-toggle-item" id="darkUiToggle">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                    </svg>
+                    <span>پس‌زمینه تیره</span>
+                </button>
+                
+                <!-- تنظیمات حالت شب (اسلایدرها) -->
+                <div class="night-settings-container" id="settingsNightContainer">
+                    <button class="night-settings-toggle" id="settingsNightToggle">
+                        <span><svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94 0 .31.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg> تنظیمات حالت شب</span><span class="arrow">▼</span>
                     </button>
+                    <div class="night-settings-panel" id="settingsNightPanel">
+                        <div class="slider-container">
+                            <label>Invert <span class="slider-value" id="settingsInvertVal">0.90</span></label>
+                            <input type="range" id="settingsInvertSlider" min="0" max="1" step="0.01" value="0.90">
+                        </div>
+                        <div class="slider-container">
+                            <label>Brightness <span class="slider-value" id="settingsBrightnessVal">1.10</span></label>
+                            <input type="range" id="settingsBrightnessSlider" min="0.2" max="2" step="0.01" value="1.10">
+                        </div>
+                        <div class="slider-container">
+                            <label>Contrast <span class="slider-value" id="settingsContrastVal">1.05</span></label>
+                            <input type="range" id="settingsContrastSlider" min="0.5" max="3" step="0.01" value="1.05">
+                        </div>
+                        <button class="reset-filter-btn" id="settingsResetFilterBtn">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                            بازنشانی
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- دکمه حذف فایل‌های آفلاین -->
-            <button class="delete-offline-item" id="settingsDeleteOfflineBtn">
-                <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
-                حذف فایل‌های آفلاین
-            </button>
+            <!-- بخش مدیریت حافظه -->
+            <div class="settings-section">
+                <div class="settings-section-title">مدیریت حافظه</div>
+                <!-- دکمه حذف فایل‌های آفلاین -->
+                <button class="delete-offline-item" id="settingsDeleteOfflineBtn">
+                    <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    حذف فایل‌های آفلاین
+                </button>
+            </div>
             
             <button class="cancel-btn" onclick="closeSettingsModal()">
                 <svg viewBox="0 0 24 24" width="16" height="16">
@@ -984,7 +1112,7 @@
         
         let objectUrls = { right: null, left: null };
 
-        // ========== مدیریت تم ==========
+        // ========== مدیریت تم و پس‌زمینه تیره ==========
         const themeColorMeta = document.getElementById('theme-color-meta');
         const rootStyle = document.documentElement.style;
 
@@ -1004,48 +1132,34 @@
 
         updateNightFilter();
 
+        // وضعیت پس‌زمینه تیره
+        let isDarkUI = localStorage.getItem('quran-dark-ui') === 'true';
+
         function setTheme(mode) {
             if (mode === 'night') {
                 document.body.classList.add('night-mode');
+                document.body.classList.remove('dark-ui'); // غیرفعال کردن dark-ui در حالت شب
                 themeColorMeta.setAttribute('content', '#0b1424');
                 localStorage.setItem('quran-theme', 'night');
             } else {
                 document.body.classList.remove('night-mode');
-                themeColorMeta.setAttribute('content', '#f0f7ff');
+                // اعمال dark-ui اگر فعال باشد
+                if (isDarkUI) {
+                    document.body.classList.add('dark-ui');
+                    themeColorMeta.setAttribute('content', '#1a2538');
+                } else {
+                    document.body.classList.remove('dark-ui');
+                    themeColorMeta.setAttribute('content', '#f0f7ff');
+                }
                 localStorage.setItem('quran-theme', 'day');
             }
             
             // به‌روزرسانی دکمه تغییر تم در مودال تنظیمات
-            const themeBtn = document.getElementById('settingsThemeToggle');
-            if (themeBtn) {
-                themeBtn.innerHTML = '';
-                if (document.body.classList.contains('night-mode')) {
-                    themeBtn.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                            <circle cx="12" cy="12" r="5"/>
-                            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                                <line x1="12" y1="1" x2="12" y2="4"/>
-                                <line x1="12" y1="20" x2="12" y2="23"/>
-                                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
-                                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
-                                <line x1="1" y1="12" x2="4" y2="12"/>
-                                <line x1="20" y1="12" x2="23" y2="12"/>
-                                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
-                                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
-                            </g>
-                        </svg>
-                        <span>حالت روز</span>
-                    `;
-                } else {
-                    themeBtn.innerHTML = `
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/>
-                        </svg>
-                        <span>حالت شب</span>
-                    `;
-                }
-            }
+            updateThemeToggleButton();
             
+            // به‌روزرسانی وضعیت دکمه dark-ui
+            updateDarkUIToggleButton();
+
             const settingsNightContainer = document.getElementById('settingsNightContainer');
             if (settingsNightContainer) {
                 settingsNightContainer.style.display = document.body.classList.contains('night-mode') ? 'block' : 'none';
@@ -1054,6 +1168,78 @@
 
         function toggleTheme() {
             setTheme(document.body.classList.contains('night-mode') ? 'day' : 'night');
+        }
+
+        function toggleDarkUI() {
+            if (document.body.classList.contains('night-mode')) return; // غیرفعال در حالت شب
+            isDarkUI = !isDarkUI;
+            localStorage.setItem('quran-dark-ui', isDarkUI);
+            if (isDarkUI) {
+                document.body.classList.add('dark-ui');
+                themeColorMeta.setAttribute('content', '#1a2538');
+            } else {
+                document.body.classList.remove('dark-ui');
+                themeColorMeta.setAttribute('content', '#f0f7ff');
+            }
+            updateDarkUIToggleButton();
+        }
+
+        function updateThemeToggleButton() {
+            const themeBtn = document.getElementById('settingsThemeToggle');
+            if (!themeBtn) return;
+            themeBtn.innerHTML = '';
+            if (document.body.classList.contains('night-mode')) {
+                themeBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <circle cx="12" cy="12" r="5"/>
+                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="1" x2="12" y2="4"/>
+                            <line x1="12" y1="20" x2="12" y2="23"/>
+                            <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+                            <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                            <line x1="1" y1="12" x2="4" y2="12"/>
+                            <line x1="20" y1="12" x2="23" y2="12"/>
+                            <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+                            <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+                        </g>
+                    </svg>
+                    <span>حالت روز</span>
+                `;
+            } else {
+                themeBtn.innerHTML = `
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79"/>
+                    </svg>
+                    <span>حالت شب</span>
+                `;
+            }
+        }
+
+        function updateDarkUIToggleButton() {
+            const darkBtn = document.getElementById('darkUiToggle');
+            if (!darkBtn) return;
+            if (document.body.classList.contains('night-mode')) {
+                darkBtn.style.display = 'none'; // در حالت شب مخفی است
+            } else {
+                darkBtn.style.display = 'flex';
+                if (isDarkUI) {
+                    darkBtn.classList.add('active');
+                    darkBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                        </svg>
+                        <span>پس‌زمینه روشن</span>
+                    `;
+                } else {
+                    darkBtn.classList.remove('active');
+                    darkBtn.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/>
+                        </svg>
+                        <span>پس‌زمینه تیره</span>
+                    `;
+                }
+            }
         }
 
         const savedTheme = localStorage.getItem('quran-theme') || 'day';
@@ -1274,6 +1460,11 @@
             const themeToggle = document.getElementById('settingsThemeToggle');
             if (themeToggle) {
                 themeToggle.addEventListener('click', toggleTheme);
+            }
+
+            const darkToggle = document.getElementById('darkUiToggle');
+            if (darkToggle) {
+                darkToggle.addEventListener('click', toggleDarkUI);
             }
 
             const nightToggle = document.getElementById('settingsNightToggle');
