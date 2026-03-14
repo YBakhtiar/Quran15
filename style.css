@@ -334,9 +334,9 @@ body::before {
 }
 /* استایل یکسان برای تمام دکمه‌های تنظیمات (به جز دکمه حذف) */
 .setting-value button:not(.delete-option) {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 0.9rem;
     font-weight: 500;
     border: 1px solid var(--border-light);
     background: var(--card-bg);
@@ -348,7 +348,9 @@ body::before {
     justify-content: center;
     gap: 4px;
     white-space: nowrap;
-    min-width: 70px;
+    min-width: 80px;
+    font-family: 'Vazirmatn', sans-serif;
+    line-height: 1.4;
 }
 .setting-value button.active {
     background: var(--accent-soft);
@@ -364,10 +366,10 @@ body::before {
     gap: 8px;
 }
 .theme-selector-btn, .lang-btn {
-    /* می‌توانید ویژگی‌های خاص اضافه کنید */
+    /* کلاس‌های خاص، اما استایل از rule بالا گرفته می‌شود */
 }
 .settings-btn-row {
-    /* ویژگی‌های عمومی توسط .setting-value button کنترل می‌شود */
+    /* کلاس‌های خاص، اما استایل از rule بالا گرفته می‌شود */
 }
 
 /* دکمه حذف کوچک و با آیکون مناسب */
@@ -385,6 +387,7 @@ body::before {
     cursor: pointer;
     font-size: 0.9rem;
     transition: all 0.2s;
+    font-family: 'Vazirmatn', sans-serif;
 }
 .delete-option svg {
     width: 18px;
@@ -747,7 +750,7 @@ body::before {
 }
 .dl-option .dl-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-/* بخش نصب اپلیکیشن (اندازه‌های اصلاح‌شده) */
+/* بخش نصب اپلیکیشن */
 .install-section {
     margin-top: 20px;
     padding-top: 20px;
@@ -775,7 +778,7 @@ body::before {
     border: 1px solid var(--accent);
     background: var(--accent-soft);
     color: var(--accent);
-    font-family: inherit;
+    font-family: 'Vazirmatn', sans-serif;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -786,7 +789,7 @@ body::before {
     gap: 8px;
 }
 .install-btn svg {
-    width: 18px;   /* اندازه مناسب برای دسکتاپ */
+    width: 18px;
     height: 18px;
     fill: currentColor;
     flex-shrink: 0;
