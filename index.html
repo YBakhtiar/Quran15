@@ -42,7 +42,7 @@
             --shadow-lg: 0 16px 40px rgba(80, 50, 20, 0.16);
             --shadow-page: 0 8px 32px rgba(80, 50, 20, 0.2);
             --scrollbar-thumb: #B8860B;
-            --scrollbar-track: rgba(184, 134, 11, 0.1);
+            --scrollbar-track: rgba(184, 134, 11, 0.08);
         }
 
         /* تم زرد - شب */
@@ -66,7 +66,7 @@
             --modal-bg: #1A2B3E;
             --card-bg: rgba(26, 43, 62, 0.88);
             --scrollbar-thumb: #D4AF37;
-            --scrollbar-track: rgba(212, 175, 55, 0.1);
+            --scrollbar-track: rgba(212, 175, 55, 0.08);
         }
 
         /* تم زرد - dark-ui (فقط روز) */
@@ -87,7 +87,7 @@
             --modal-bg: #253548;
             --card-bg: rgba(37, 53, 72, 0.88);
             --scrollbar-thumb: #D4AF37;
-            --scrollbar-track: rgba(212, 175, 55, 0.1);
+            --scrollbar-track: rgba(212, 175, 55, 0.08);
         }
 
         /* تم آبی */
@@ -111,7 +111,7 @@
             --modal-bg: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.82);
             --scrollbar-thumb: #2b6ed9;
-            --scrollbar-track: rgba(43, 110, 217, 0.1);
+            --scrollbar-track: rgba(43, 110, 217, 0.08);
         }
 
         body.theme-abi.night-mode {
@@ -134,7 +134,7 @@
             --modal-bg: #1f2a40;
             --card-bg: rgba(31, 42, 64, 0.88);
             --scrollbar-thumb: #4f9eff;
-            --scrollbar-track: rgba(79, 158, 255, 0.1);
+            --scrollbar-track: rgba(79, 158, 255, 0.08);
         }
 
         body.theme-abi.dark-ui:not(.night-mode) {
@@ -154,7 +154,7 @@
             --modal-bg: #2c3a50;
             --card-bg: rgba(44, 58, 80, 0.88);
             --scrollbar-thumb: #4f9eff;
-            --scrollbar-track: rgba(79, 158, 255, 0.1);
+            --scrollbar-track: rgba(79, 158, 255, 0.08);
         }
 
         /* فیلتر شب ثابت */
@@ -189,16 +189,34 @@
             transition: opacity 0.4s;
         }
 
-        /* اسکرول بار حرفه‌ای */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--scrollbar-track); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 10px; border: 2px solid transparent; background-clip: content-box; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-hover); border: 2px solid transparent; background-clip: content-box; }
+        /* اسکرول بار مدرن و حرفه‌ای */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 12px;
+            margin: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background-clip: content-box;
+            min-height: 40px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+            border: 1px solid transparent;
+            background-clip: content-box;
+        }
         /* مخفی کردن اسکرول در موبایل برای فهرست‌ها */
         @media (max-width: 768px) {
             .tab-content::-webkit-scrollbar {
                 width: 0;
                 height: 0;
+                display: none;
             }
         }
 
@@ -717,7 +735,19 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
-        .dl-option .dl-main { font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .dl-option .dl-main {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .dl-option .dl-main svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--accent); /* آیکون سفید/طلایی */
+        }
         .dl-option .dl-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
         .progress-pill {
@@ -820,28 +850,7 @@
         .nav-right { right: 0; --grad-dir: left; }
         .nav-left { left: 0; --grad-dir: right; }
 
-        .page-indicator {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-elevated);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 6px 18px;
-            border-radius: 20px;
-            font-family: 'Vazirmatn', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-muted);
-            border: 1px solid var(--border-light);
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-            white-space: nowrap;
-        }
-        .page-indicator.visible { opacity: 1; }
+        /* صفحه‌شمار حذف شد */
 
         @media (max-width: 768px) {
             .quran-container { padding: 8px; gap: 0; }
@@ -1051,7 +1060,7 @@
         </button>
     </div>
 
-    <div class="page-indicator" id="pageIndicator"></div>
+    <!-- صفحه‌شمار به طور کلی حذف شد -->
 
     <script>
         // ================== CONST & STATE ==================
@@ -1060,7 +1069,7 @@
         let currentFile = 3; // پیش‌فرض فایل 3 (صفحه 1 = فاتحه)
         let isDownloaded = false;
         let objectUrls = { right: null, left: null };
-        let indicatorTimer = null;
+        // indicatorTimer حذف شد
 
         // zoom & pan
         let currentScale = 1;
@@ -1224,8 +1233,6 @@
             document.getElementById('cancelText').textContent = t.cancel;
             document.getElementById('tabJuzBtn').textContent = t.tabJuz;
             document.getElementById('tabSurahBtn').textContent = t.tabSurah;
-
-            if (typeof showPageIndicator === 'function') showPageIndicator();
         }
 
         function updateLangButtons() {
@@ -1386,28 +1393,7 @@
             return fileNumber - 2; // Quran003.jpg = صفحه 1
         }
 
-        function showPageIndicator() {
-            const el = document.getElementById('pageIndicator');
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile) {
-                const page = getPageFromFile(currentFile);
-                const pageText = translations[currentLang].page + ' ' + formatNumber(page);
-                el.textContent = pageText;
-            } else {
-                let rightFile = (currentFile % 2 !== 0) ? currentFile : currentFile - 1;
-                let leftFile = rightFile + 1;
-                const rightPage = getPageFromFile(rightFile);
-                const leftPage = getPageFromFile(leftFile);
-                if (leftFile <= totalFiles) {
-                    el.textContent = translations[currentLang].page + ' ' + formatNumber(rightPage) + ' و ' + formatNumber(leftPage);
-                } else {
-                    el.textContent = translations[currentLang].page + ' ' + formatNumber(rightPage);
-                }
-            }
-            el.classList.add('visible');
-            clearTimeout(indicatorTimer);
-            indicatorTimer = setTimeout(() => el.classList.remove('visible'), 2200);
-        }
+        // تابع showPageIndicator به طور کلی حذف شد
 
         // ================== مدیریت صفحات و کش ==================
         async function loadPageImage(imgId, fileNumber, side) {
@@ -1457,7 +1443,6 @@
             }
             localStorage.setItem('lastQuranFile', currentFile.toString());
             if (window.location.protocol !== 'file:') history.replaceState(null, null, '#' + currentFile);
-            showPageIndicator();
         }
 
         function resetZoom() {
