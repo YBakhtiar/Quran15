@@ -112,7 +112,7 @@
             --scrollbar-thumb: #B8860B;
             --scrollbar-track: rgba(184, 134, 11, 0.08);
         }
-        body.theme-zard.night-mode { /* ... (مشابه قبل) ... */ }
+        body.theme-zard.night-mode { /* ... */ }
         body.theme-zard.dark-ui:not(.night-mode) { /* ... */ }
 
         /* فیلتر شب ثابت */
@@ -761,7 +761,7 @@
         }
     </style>
 </head>
-<body class="theme-abi"> <!-- تم پیش‌فرض آبی -->
+<body class="theme-abi">
     <!-- اسپلش مودال -->
     <div class="overlay splash-overlay active" id="splashOverlay">
         <div class="overlay-backdrop"></div>
@@ -888,17 +888,23 @@
                 <span id="downloadTitle">اختيار الجودة</span>
             </div>
             <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;" id="downloadDesc">اختر الجودة المناسبة:</p>
+            
+            <!-- متن راهنمای آفلاین جدید -->
+            <div style="background: var(--bg-tertiary); border-radius: 16px; padding: 16px; margin-bottom: 16px; font-size: 0.9rem; color: var(--text-secondary);">
+                <p id="offlineInstructions" style="margin:0; line-height:1.7;"></p>
+            </div>
+
             <button class="dl-option" id="dlStandard">
                 <div class="dl-main">
                     <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
-                    <span id="standardText">قياسي (۷۰ ميغابايت)</span>  <!-- ترجمه شده -->
+                    <span id="standardText">قياسي (۷۰ ميغابايت)</span>
                 </div>
                 <div class="dl-sub" id="standardSub">مناسب للجوال والتابلت</div>
             </button>
             <button class="dl-option" id="dlHQ">
                 <div class="dl-main">
                     <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
-                    <span id="hqText">جودة عالية (۵۰۰ ميغابايت)</span>  <!-- ترجمه شده -->
+                    <span id="hqText">جودة عالية (۵۰۰ ميغابايت)</span>
                 </div>
                 <div class="dl-sub" id="hqSub">مناسب للكمبيوتر والشاشات الكبيرة</div>
             </button>
@@ -960,9 +966,9 @@
 
     <script>
         // ================== CONST & STATE ==================
-        const totalFiles = 612; // آخرین فایل Quran612.jpg = صفحه 610
+        const totalFiles = 612;
         const GITHUB_BASE = 'https://raw.githubusercontent.com/YBakhtiar/quranh/main/';
-        let currentFile = 3; // پیش‌فرض فایل 3 (صفحه 1 = فاتحه)
+        let currentFile = 3;
         let isDownloaded = false;
         let objectUrls = { right: null, left: null };
 
@@ -993,7 +999,7 @@
             }
         });
 
-        // ================== ترجمه (فارسی و عربی) با اضافات ==================
+        // ================== ترجمه (فارسی و عربی) با اضافات جدید ==================
         const translations = {
             fa: {
                 splashSubtitle: 'به نرم‌افزار قرآن کریم خوش آمدید',
@@ -1018,9 +1024,12 @@
                 cancel: 'لغو',
                 ok: 'باشه',
                 confirmDeleteTitle: 'تأیید',
-                confirmDeleteMsg: 'تمام فایل‌های دانلود شده حذف میشوند. ادامه می‌دهید؟',
+                // پیام حذف با هشدار جدید
+                confirmDeleteMsg: 'تمام فایل‌های دانلود شده حذف می‌شوند. اگر فایل‌های آفلاین را حذف کنید، دیگر نمی‌توانید از برنامه به صورت آفلاین استفاده کنید و برای استفاده مجدد باید آن‌ها را دوباره دانلود کنید. ادامه می‌دهید؟',
                 confirmDownloadTitle: 'دانلود آفلاین',
                 confirmDownloadMsg: 'فایل‌های آفلاین حدود {size} حجم دارد. ادامه می‌دهید؟',
+                // پیام موفقیت دانلود جدید
+                downloadSuccessMsg: 'دانلود فایل‌ها با موفقیت انجام شد. اکنون می‌توانید از برنامه به صورت کاملاً آفلاین و بدون اینترنت استفاده کنید.',
                 page: 'صفحه',
                 tabJuz: 'اجزاء',
                 tabSurah: 'سوره‌ها',
@@ -1036,7 +1045,7 @@
                 nightMode: 'حالت شب',
                 lightBg: 'پس‌زمینه روشن',
                 darkBg: 'پس‌زمینه تیره',
-                downloadSuccess: 'دانلود با موفقیت انجام شد!',
+                downloadSuccess: 'دانلود با موفقیت انجام شد!', // (قدیمی، نگه داشته می‌شود اما استفاده نمی‌کنیم)
                 deleteSuccess: 'فایل‌های آفلاین حذف شدند.',
                 downloadError: 'خطا در دانلود!',
                 deleteError: 'خطا در حذف!',
@@ -1046,7 +1055,9 @@
                 installInstr2: '<strong>آیفون/آیپد:</strong> "Add to Home Screen".',
                 installInstr3: '<strong>دسکتاپ:</strong> آیکون نصب در نوار آدرس.',
                 downloading: 'در حال دانلود...',
-                progress: 'پیشرفت: {current} از {total}'
+                progress: 'پیشرفت: {current} از {total}',
+                // متن راهنمای آفلاین
+                offlineInstructions: 'برای استفاده آفلاین از برنامه، ابتدا آن را نصب کرده و به صفحه اصلی اضافه کنید. سپس از طریق صفحه اصلی برنامه را باز کرده و فایل‌های آفلاین را دانلود نمایید. پس از آن می‌توانید در مراحل بعدی بدون نیاز به اینترنت از قرآن استفاده کنید.'
             },
             ar: {
                 splashSubtitle: 'مرحباً بكم في تطبيق القرآن الكريم',
@@ -1064,16 +1075,17 @@
                 closeBtn: 'إغلاق',
                 downloadTitle: 'اختيار الجودة',
                 downloadDesc: 'اختر الجودة المناسبة:',
-                standard: 'قياسي (۷۰ ميغابايت)',  // ترجمه "مگابایت" به "ميغابايت"
+                standard: 'قياسي (۷۰ ميغابايت)',
                 standardSub: 'مناسب للجوال والتابلت',
-                hq: 'جودة عالية (۵۰۰ ميغابايت)',  // ترجمه "مگابایت" به "ميغابايت"
+                hq: 'جودة عالية (۵۰۰ ميغابايت)',
                 hqSub: 'مناسب للكمبيوتر والشاشات الكبيرة',
                 cancel: 'إلغاء',
                 ok: 'موافق',
                 confirmDeleteTitle: 'تأكيد',
-                confirmDeleteMsg: 'سيتم حذف جميع الملفات التي تم تنزيلها. هل تريد المتابعة؟',
+                confirmDeleteMsg: 'سيتم حذف جميع الملفات التي تم تنزيلها. إذا قمت بحذف الملفات غير المتصلة بالإنترنت، فلن تتمكن من استخدام التطبيق دون اتصال، وسيتعين عليك تنزيلها مرة أخرى لاستخدامها. هل تريد المتابعة؟',
                 confirmDownloadTitle: 'تنزيل للاستخدام دون اتصال',
                 confirmDownloadMsg: 'الملفات غير المتصلة بالإنترنت بحجم {size}. هل تريد المتابعة؟',
+                downloadSuccessMsg: 'تم تنزيل الملفات بنجاح. يمكنك الآن استخدام التطبيق بشكل كامل دون اتصال بالإنترنت.',
                 page: 'صفحة',
                 tabJuz: 'الأجزاء',
                 tabSurah: 'السور',
@@ -1099,11 +1111,12 @@
                 installInstr2: '<strong>آيفون/آيباد:</strong> "Add to Home Screen".',
                 installInstr3: '<strong>سطح المكتب:</strong> أيقونة التثبيت في شريط العنوان.',
                 downloading: 'جاري التحميل...',
-                progress: 'التقدم: {current} من {total}'
+                progress: 'التقدم: {current} من {total}',
+                offlineInstructions: 'لاستخدام التطبيق دون اتصال، قم أولاً بتثبيته وإضافته إلى الشاشة الرئيسية. ثم افتح التطبيق من الشاشة الرئيسية وقم بتنزيل الملفات غير المتصلة بالإنترنت. بعد ذلك يمكنك استخدام القرآن في المرات اللاحقة بدون الحاجة إلى الإنترنت.'
             }
         };
 
-        let currentLang = localStorage.getItem('quran-language') || 'ar'; // پیش‌فرض عربی
+        let currentLang = localStorage.getItem('quran-language') || 'ar';
         if (!['fa', 'ar'].includes(currentLang)) currentLang = 'ar';
 
         function formatNumber(num) {
@@ -1154,6 +1167,8 @@
             document.getElementById('installInstr1').innerHTML = t.installInstr1;
             document.getElementById('installInstr2').innerHTML = t.installInstr2;
             document.getElementById('installInstr3').innerHTML = t.installInstr3;
+            // متن راهنمای آفلاین
+            document.getElementById('offlineInstructions').textContent = t.offlineInstructions;
         }
 
         function updateLangButtons() {
@@ -1225,7 +1240,7 @@
         }
 
         // ================== تم اصلی ==================
-        let currentThemeStyle = localStorage.getItem('quran-theme-style') || 'abi'; // پیش‌فرض آبی
+        let currentThemeStyle = localStorage.getItem('quran-theme-style') || 'abi';
         let currentThemeMode = localStorage.getItem('quran-theme-mode') || 'day';
 
         function applyTheme() {
@@ -1399,10 +1414,10 @@
         function updateStorageVisibility() {
             const storageToggle = document.getElementById('storageToggle');
             if (isDownloaded) {
-                storageToggle.style.display = 'flex'; // یا 'flex' چون setting-item از flex استفاده می‌کند
+                storageToggle.style.display = 'flex';
             } else {
                 storageToggle.style.display = 'none';
-                document.getElementById('deleteOptionContainer').style.display = 'none'; // اطمینان از مخفی بودن
+                document.getElementById('deleteOptionContainer').style.display = 'none';
             }
         }
 
@@ -1445,7 +1460,8 @@
                         .replace('{total}', formatNumber(totalFiles-2));
                 }
                 setDownloadedUI();
-                await showDialogAlert(translations[currentLang].downloadSuccess, translations[currentLang].confirmDownloadTitle);
+                // پیام موفقیت جدید
+                await showDialogAlert(translations[currentLang].downloadSuccessMsg, translations[currentLang].confirmDownloadTitle);
                 updatePages();
             } catch (err) {
                 progress.textContent = '❌ ' + translations[currentLang].downloadError;
@@ -1461,7 +1477,7 @@
             if (btn) { btn.style.display = 'none'; btn.classList.add('done'); }
             if (prog) prog.style.display = 'none';
             isDownloaded = true;
-            updateStorageVisibility(); // نمایش گزینه مدیریت حافظه
+            updateStorageVisibility();
         }
 
         function resetDownloadedUI() {
@@ -1473,7 +1489,7 @@
                 btn.classList.remove('done');
             }
             isDownloaded = false;
-            updateStorageVisibility(); // مخفی کردن گزینه مدیریت حافظه
+            updateStorageVisibility();
             document.getElementById('deleteOptionContainer').style.display = 'none';
         }
 
@@ -1601,7 +1617,6 @@
         const storageToggle = document.getElementById('storageToggle');
         const deleteContainer = document.getElementById('deleteOptionContainer');
         storageToggle.addEventListener('click', () => {
-            // فقط زمانی که storage قابل مشاهده است (isDownloaded true) اجرا می‌شود
             if (deleteContainer.style.display === 'none' || deleteContainer.style.display === '') {
                 deleteContainer.style.display = 'block';
             } else {
@@ -1710,7 +1725,6 @@
                     if (res) {
                         setDownloadedUI();
                     } else {
-                        // اگر فایلی نبود، اطمینان از مخفی بودن storage
                         updateStorageVisibility();
                     }
                 });
