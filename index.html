@@ -189,7 +189,8 @@
             transition: opacity 0.4s;
         }
 
-        /* اسکرول بار مدرن و حرفه‌ای */
+        /* ========== اسکرول بار مدرن و حرفه‌ای ========== */
+        /* برای کل صفحه (در صورت نیاز) */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -208,17 +209,47 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-hover);
+        }
+
+        /* برای فهرست‌های داخل تب‌ها (جزء و سوره) */
+        .tab-content {
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+        }
+        .tab-content::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .tab-content::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+            border-radius: 12px;
+            margin: 4px;
+        }
+        .tab-content::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 12px;
             border: 1px solid transparent;
             background-clip: content-box;
+            min-height: 40px;
         }
-        /* مخفی کردن اسکرول در موبایل برای فهرست‌ها */
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        /* مخفی کردن اسکرول در موبایل */
         @media (max-width: 768px) {
             .tab-content::-webkit-scrollbar {
                 width: 0;
                 height: 0;
                 display: none;
             }
+            .tab-content {
+                scrollbar-width: none; /* Firefox */
+            }
         }
+        /* ========================================= */
 
         /* دکمه‌های شناور */
         .float-btn {
@@ -682,7 +713,6 @@
         .tab-content {
             overflow-y: auto;
             flex-grow: 1;
-            scrollbar-width: thin;
             padding: 4px;
         }
         .juz-grid, .surah-grid {
@@ -850,7 +880,7 @@
         .nav-right { right: 0; --grad-dir: left; }
         .nav-left { left: 0; --grad-dir: right; }
 
-        /* صفحه‌شمار حذف شد */
+        /* صفحه‌شمار به طور کلی حذف شد */
 
         @media (max-width: 768px) {
             .quran-container { padding: 8px; gap: 0; }
@@ -1468,7 +1498,6 @@
             if (currentFile + step <= totalFiles) currentFile += step;
             else if (currentFile < totalFiles) currentFile++;
             else return;
-            // بدون افکت opacity
             updatePages();
         }
         function prevPage() {
